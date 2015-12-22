@@ -1,0 +1,198 @@
+body{
+	
+}
+
+.bg{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	background: linear-gradient(45deg, #a177ff 0%, #02CEFF 100%);
+}
+
+h4{ font-weight: normal }
+
+h5{
+	font-size: 16px;
+}
+
+a:hover{
+	text-decoration: underline;
+}
+
+/**************
+header
+***************/
+header{
+	height: 55px;
+	background: #fff;
+	box-shadow: 0 1px 16px rgba(0,0,0,0.1);
+}
+
+header .logo{
+	height: 100%;
+	font-size: 30px;
+	font-family: inherit;
+	margin-left: 5%;
+	display: inline-block;
+	position: relative;
+}
+
+header .logo_icon, header .logo_iconbg{
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background: #fff;
+	z-index: 2;
+	border: 2px solid #89BCE3;
+	transform: rotate(45deg);
+	position: absolute;
+	top: 12px;
+}
+header .logo_icon{
+	box-shadow: 0px 0px 1px #fff;
+}
+
+header .logo_iconbg{
+	background: #89BCE3;
+	z-index: 1;
+	top: 18px;
+}
+
+header .logo_font{
+	display: inline-block;
+	height: 55px;
+	margin-left: 40px;
+	line-height: 55px;
+	color: #5A8FB5;
+  	font-weight: bold;
+}
+
+header .navigator{
+	float: right;
+	margin-right: 5%;
+}
+
+header .navigator dd{
+	float: left;
+	padding: 0 5px;
+}
+
+header .navigator dd a{
+	display: inline-block;
+	padding: 15px;
+	color: #5A8FB5;
+}
+.header{
+	width: 1200px;
+	margin: 0 auto;
+}
+.container{
+	min-height: 900px;
+	width: 1024px;
+	padding: 100px 0;
+	margin: 10px auto;
+	
+}
+
+.container *{
+	color: #818f98;
+	font-size: 14px;
+}
+
+.container h4 a{
+	font-size: 24px;
+	line-height: 60px;
+	float: left;
+}
+
+.blog{
+	float: left;
+	width: 700px;
+	border-top-right-radius: 40px;
+	background: #fff;
+	padding: 0 50px;
+}
+
+section{
+	padding: 50px 0;
+}
+
+
+.info{
+	border-bottom: 3px solid #E8E8E8;
+}
+
+.info *{
+	color: #657076;
+}
+
+.info .head{
+	float: right;
+	border: 3px solid #e8e8e8;
+	border-radius: 25px;
+}
+
+.info .type{
+	display: inline-block;
+	margin: 23px 0 0 20px;
+	background: #00B19E;
+	color: #fff;
+	padding: 0 2px;
+}
+
+.tool{
+	float: right;
+	line-height: 36px;
+	
+}
+
+.tool span{
+	margin-left: 10px;
+}
+
+.content{
+	line-height: 1.8em;
+	margin: 15px 0 0 0;
+}
+
+.slide{
+	width: 200px;
+	padding: 50px 0;
+	float: right;
+}
+
+.slide *{
+	color: #fff;
+}
+
+.slide .item a{
+	display: block; 	
+	padding-left: 10px;
+	margin: 10px 0;
+}
+
+.caseTit{
+	font-size: 30px;
+}
+
+.caseTit span{
+	font-size: 20px;
+}
+
+footer{
+	height: 200px;
+	padding: 30px 0;
+	background: #212a34;
+}
+
+.footer{
+	width: 1100px;
+	margin: 0 auto;
+}
+
+.footer *{
+	color: #fff;
+}

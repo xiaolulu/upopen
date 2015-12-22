@@ -1,0 +1,83 @@
+.userInfo{
+	padding: 40px;
+	min-height: 400px;
+	background: #fff;
+}
+
+.addBlog{
+	padding: 10px;
+	float: right;
+	color: #fff;
+	background-color: #11C6FF;
+}
+
+.profile{
+	width: 180px;
+	padding: 20px 10px;
+	min-height: 450px;
+	float: right;
+	text-align: center;
+}
+
+.selfname{
+	line-height: 40px;
+}
+
+.fruit{
+	width: 722px;
+	float: left;
+}
+
+.tab{
+	border-bottom: 1px solid #afafaf;
+	height: 40px;
+}
+
+.tabMenu{
+	margin-right: 20px;
+	padding: 10px;
+	line-height: 20px;
+	height: 20px;
+}
+
+.tabMenuCurrent{
+	background-color: #89BCE3;
+	color: #fff;
+}
+
+.blogItem{
+	margin: 20px 0;
+	padding: 10px 0;
+	border-bottom: 1px solid #e3e3e3;
+	position: relative;
+}
+
+.blogItem .info{
+	height: 40px;
+}
+
+.blogItem .kind{
+	display: inline-block;
+	margin: 0 0 0 20px;
+	background: #F87428;
+	color: #fff;
+	padding: 0 2px;
+}
+
+.blogItem .tool{
+}
+
+.blogItem .tool span{
+	margin-right: 20px;
+}
+
+.blogItem .handle{
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+
+.blogItem .handle a{
+	margin-left: 20px;
+}
+

@@ -1,0 +1,1 @@
+define(function(){return Msg={error:{10001:"User isn't exist!",10100:"Need to sign in!"}},Msg});

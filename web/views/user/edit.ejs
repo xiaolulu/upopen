@@ -1,0 +1,21 @@
+<% include ../common/header.ejs %>
+
+<div class="userInfo clearfix">
+	<div class="profile">
+		
+	</div>
+	<form id="editorForm" class="editorForm">
+		<input type="text" id="title" placeHolder="title: I will be here with you" class="title" maxLength="40" />
+		<select class="type" id="type">
+			<option value="nodejs">nodejs</option>
+			<option value="ubuntu">ubuntu</option>
+			<option value="+">+</option>
+		</select><br />	
+		<textarea class="editor" id="editor"></textarea><br />
+		<div class="editorHandler">
+			<button type="submit" id="editorBtn" class="btn">SAVE</button><a class="underline preview" href="javascript">preview</a>
+		</div>
+	</form>
+</div>
+
+<% include ../common/footer.ejs %>

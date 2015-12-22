@@ -1,0 +1,40 @@
+{
+  "name": "upopen",
+  "version": "1.0.0",
+  "description": "this is upopen's web server",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiaolulu/upopen.git"
+  },
+  "keywords": [
+    "upopen"
+  ],
+  "author": "jxiao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xiaolulu/upopen/issues"
+  },
+  "homepage": "https://github.com/xiaolulu/upopen#readme",
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "ejs": "^2.3.4",
+    "express": "^4.13.3",
+    "log4js": "^0.6.29",
+    "marked": "^0.3.5",
+    "nodemailer": "^1.10.0",
+    "redis": "^2.4.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-jshint": "^2.0.0",
+    "gulp-load-plugins": "^1.1.0",
+    "gulp-uglify": "^1.5.1",
+    "jshint": "^2.8.0",
+    "jshint-stylish": "^2.1.0",
+    "map-stream": "0.0.6"
+  }
+}

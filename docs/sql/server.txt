@@ -1,0 +1,27 @@
+
+/**************************
+create blog table
+***************************/
+create table user( id varchar(40) not null primary key, username varchar(40), password varchar(40), nickname varchar(40), sex int(1), qq varchar(12), disabled int(1), auth int(3), head varchar(100), date TIMESTAMP not null default now() )charset=utf8;
+
+/**************************
+create blog table
+***************************/
+create table blog( id int(10) auto_increment not null primary key, title varchar(40), summary text(1000), content text(10000),date TIMESTAMP not null default now(), owner varchar(40), sort int(2), view int(10), comment int(5), disabled int(1), kind varchar(40), tags varchar( 100 ) )AUTO_INCREMENT=10000 charset=utf8;
+
+/**************************
+create comment table
+***************************/
+create table comment( id int(10) auto_increment not null primary key, username varchar(40), content text(2000), owner varchar(40), belong varchar(40), date TIMESTAMP not null default now() )AUTO_INCREMENT=10000 charset=utf8;
+
+CREATE TABLE comment (
+  id INT (10) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  username VARCHAR (40),
+  content TEXT (2000),
+  OWNER VARCHAR (40),
+  belong VARCHAR (40),
+  date TIMESTAMP  NOT NULL DEFAULT NOW() 
+) AUTO_INCREMENT = 10000 CHARSET = utf8 ;
+
+
+

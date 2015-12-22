@@ -1,0 +1,58 @@
+.userInfo{
+	padding: 40px;
+	min-height: 400px;
+	background: #fff;
+}
+
+.profile{
+	width: 200px;
+	min-height: 300px;
+	float: right;
+	background: #f00;
+}
+
+.editorForm{
+	width: 722px;
+	float: left;
+}
+
+.editorForm .title{
+	padding: 8px;
+	border: 1px solid #1AAFD0;
+	outline: 0px;
+	width: 545px;
+	font-size: 24px;
+}
+
+.editorForm .type{
+	padding: 5px;
+	outline: 0px;
+	width: 150px;
+	height: 46px;
+	float: right;
+}
+
+.editorForm .type option{
+	height: 24px;
+}
+
+.editorForm .editor{
+	width: 700px;
+	padding: 10px;
+	min-height: 400px;
+	line-height: 1.83em;
+	border: 1px solid #1AAFD0;
+	outline: 0px;
+	margin-top: 12px;
+	resize: none;
+}
+
+.editorForm .editorHandler{
+	margin: 12px 0 0 200px;
+}
+
+.editorForm .preview{
+	color: #2B63F9;
+	margin-left: 40px;
+}
+

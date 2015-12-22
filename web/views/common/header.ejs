@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>UPOPEN</title>
+<meta charset="UTF-8" />
+<link href="/assets/core/css/reset.css" type="text/css" rel="stylesheet">
+<link href="/assets/core/css/markdown.css" type="text/css" rel="stylesheet">
+<link href="/assets/public/css/common.css" type="text/css" rel="stylesheet">
+<link href="/assets/module<%= path %>.css" type="text/css" rel="stylesheet">
+<link href="/assets/widget/hint/hint.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div class="bgBlue"></div>
+<header>
+	<div class="header">
+		<a class="logo " href="/">
+			<span class="logo_icon"></span>
+			<span class="logo_icon logo_iconbg"></span>			
+			<span class="logo_font">UP<font>O</font>PEN</span>
+		</a>
+		<dl class="navigator">
+			<dd class="beforeSignIn hide"><a href="javascript:void(0)" id="toSignIn">Sign In</a></dd>
+			<dd class="afterSignIn userHeadWrap hide">
+				<a href="/user/self">
+					<img id="userHead" width="42" height="42" src="/assets/public/imgs/head.png" />
+				</a>
+				<ul class="userHeadMenu" id="userHeadMenu">
+					<li><a class="logout" href="/user/self">我的主页</a></li>
+					<li><a class="logout" href="javascript:void(0)">退出</a></li>
+				</ul>
+			</dd>
+			<dd><a href="/blog/list">BLOG</a></dd>
+			<dd><a href="/case/list">CASE</a></dd>
+		</dl>
+	</div>
+</header>
+<div class="container clearfix">

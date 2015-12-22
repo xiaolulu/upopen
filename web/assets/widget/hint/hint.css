@@ -1,0 +1,18 @@
+.hint{
+	width: 400px;
+	height: 100px;
+	position: fixed;
+	top: 48%;
+	left: 50%;
+	display: none;
+	margin-left: -200px;
+	margin-top: -50px;
+	text-align: center;
+	z-index: 200;
+}
+
+.hintContent{
+	padding: 20px;
+	color: #fff;
+	background: rgba( 0, 0, 0, .8 );
+}
