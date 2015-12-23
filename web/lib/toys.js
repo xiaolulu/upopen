@@ -1,16 +1,8 @@
 
 var http	= require( 'http' ),
 	qs		= require( 'querystring' ),
-	config	= require( '../config/server' ),
-	logger	= require( './logger' ),
-	domain	= require( 'domain' ),
+	config	= require( '../config/mysql' ),
 	crypto	= require( 'crypto' );
-
-var Domain = domain.create();
-
-Domain.on( 'error', function( e ){
-	logger.error( e );
-});
 
 function exist( req, res, method ){
 	if( req.method == method ){
@@ -61,12 +53,10 @@ function request( options, req, res, cb, fixed ){
 	options.host = config.host;
 	options.port = config.port;
 	options.headers = req.headers;
-	console.log( options );
+	
 	var HReq = http.request( options, function( HRes ){
 			var cookies = HRes.headers['set-cookie'];
 				cookies && res.setHeader("Set-Cookie",cookies );
-			console.log( 'cookies' );
-			console.log( cookies );
 			if( fixed ){
 				HRes.pipe( res );
 				return;
@@ -94,6 +84,5 @@ module.exports = {
 	createSID: createSID,
 	checkSID: checkSID,
 	request: request,
-	Cookie: Cookie,
-	Domain: Domain
+	Cookie: Cookie
 }

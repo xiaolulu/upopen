@@ -4,14 +4,14 @@ var transporter = nodemailer.createTransport({
     service: 'QQ',
     auth: {
         user: '2270112418@qq.com',
-        pass: 'qqwe321'
+        pass: 'wgexgblvoftmdici'
     }
 });
 
 function mail( config ){
 
 	var mailOptions = {
-		from:        'upopen.cn', 
+		from:        '2270112418@qq.com', 
 		to:          config.to || '2270112418@qq.com',
 		subject:     config.subject || '<h3>hi, register success</h3>',
 		text:        config.subject || '<h3>hi, register success</h3>',
@@ -28,3 +28,5 @@ function mail( config ){
 	});
 
 }
+
+module.exports = mail;

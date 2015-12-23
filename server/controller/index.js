@@ -1,6 +1,7 @@
 var user	= require( '../server/user' ),
 	blog	= require( '../server/blog' ),
 	comment	= require( '../server/comment' ),
+	toys	= require( '../lib/toys' ),
 	logger	= require( '../lib/logger' );
 
 module.exports = function( app ){
@@ -8,7 +9,9 @@ module.exports = function( app ){
 	app.use( function( req, res, next ){
 		logger.info( req.method + '::::' + req.path );
 		console.log( req.method + '::::' + req.path );
-		next();
+		toys.Domain.run( function(){
+			next();
+		});
 	});
 
 	app.post( '/user/register', function( req, res ){

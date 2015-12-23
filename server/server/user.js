@@ -55,7 +55,16 @@ var Schema = {
 				required: 100080,
 				max: [80, 100081]
 			}
+		},
+	fields: function(){
+		var fields = [],
+			exclude = [ 'password', 'disabled', 'auth' ],
+			model = this.model;
+		for( var field in model ){
+			( exclude.indexOf(field) == -1 ) && fields.push( field )			
 		}
+		return fields;
+	}
 };
 
 function register( req, res ){
@@ -66,7 +75,7 @@ function register( req, res ){
 		res.send( data );
 		return false
 	}
-	db.fetch( data, function( err, docs ){
+	db.fetch( Schema.fields().join(','), data, function( err, docs ){
 		if( err ){
 			res.send({ code: -1, msg: err } )
 		} else if( docs.length ) {
@@ -136,7 +145,7 @@ function login( req, res ){
 
 function fetch( data, res, cb){
 	
-	db.fetch( data, function( err, docs ){
+	db.fetch( Schema.fields().join(','), data, function( err, docs ){
 		if( err ){
 			res.send({ code: -1, msg: err } )
 		} else if( docs.length ) {
@@ -163,15 +172,14 @@ function logout( req, res ){
 
 function fetchInfo( req, res, cb){
 
-	var data = req.query;
+	var data = req.query,
+		fields = [];
 	data = Validate( data, Schema.model, ['id'], true );
 	if( data.code ){
 		res.send( data );
 		return false
 	}
-	db.fetch( data, function( err, docs ){
-		console.log( 'fetchInfo' );
-		console.log( docs );
+	db.fetch( Schema.fields().join(','), data, function( err, docs ){
 		if( err ){
 			res.send({ code: -1, msg: err } )
 		} else {

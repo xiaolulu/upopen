@@ -30,15 +30,13 @@ function connect( cb ){
 function get( key, cb ){
 	
 	connect( function(){
-		var c = client.get( key, function( err, reply ){
+		client.get( key, function( err, reply ){
 			if( !err && reply ){
 				console.log( reply );
 				reply = qs.parse( reply.toString() );
 			}
 			cb( reply );
 		});
-		console.log( 'redis ret' );
-		console.log( c )
 	});
 
 }

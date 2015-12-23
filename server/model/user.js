@@ -10,8 +10,8 @@ User.insert = function(data, cb ){
 	DB.insert( data, 'user', cb );
 }
 
-User.fetch = function( data, cb ){
-	DB.fetch( data, 'user', cb );
+User.fetch = function( fields, data, cb ){
+	DB.fetch( fields, data, 'user', cb );
 }
 
 User.update = function( data, cb ){

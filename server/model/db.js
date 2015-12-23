@@ -94,9 +94,15 @@ function insert( data, table, cb ){
 	query( sql, data.value, cb );
 };
 
-function fetch( data, db, cb ){
+function fetch( fields, data, db, cb ){
+	if( !cb ){
+		cb = db;
+		db = data;
+		data = fields;
+		fields = '*';
+	}
 	var condition = format( data, 'where' );
-	var sql = 'select * from ' + db + condition.where + condition.limit;
+	var sql = 'select ' + fields + ' from ' + db + condition.where + condition.limit;
 	query( sql, cb )
 }
 
