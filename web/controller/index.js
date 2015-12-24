@@ -9,7 +9,6 @@ var issue	= require( '../server/issue' ),
 	blog	= require( '../server/blog' ),
 	cases	= require( '../server/case' ),
 	logger	= require( '../lib/logger' ),
-	domain	= require( 'domain' ),
 	comment	= require( '../server/comment' );
 
 module.exports = function( app ){
@@ -41,6 +40,8 @@ module.exports = function( app ){
 	}
 
 	app.use( function( req, res, next ){
+
+		res.header( 'Access-Control-Allow-Origin','http://check.upopen.com');
 		
 		console.log( req.method + '::::' + req.path );
 		if( req.path == '/favicon.ico' ){

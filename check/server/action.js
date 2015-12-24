@@ -56,9 +56,9 @@ function *remove( config ){
 }
 
 function *check( config ){
-
+	debugger
 	var data = config.request.body,
-		ret = yield checkAction( data );
+		ret = yield checkAction( data, { cookie: config.header.cookie } );
 	if( ret ){
 		return { code: 0, data: ret, msg: 'check action success'};
 	} else {
@@ -67,7 +67,7 @@ function *check( config ){
 
 }
 
-function *checkAction( data ){
+function *checkAction( data, headers ){
 
 	var config = data.actionConfig;
 	delete data.actionConfig;
@@ -81,14 +81,13 @@ function *checkAction( data ){
 		method: method,
 		path: path,
 		data: data.params,
-		headers: {
-			'content-type': 'application/x-www-form-urlencoded'
-		}
+		headers: headers
 	}
+	/*
 	if( method == 'POST' ){
 		options[ 'headers' ]['content-length'] = qs.stringify( data ).length;
 	}
-
+	*/
 	return yield toys.requestA( options );
 }
 

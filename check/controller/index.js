@@ -20,7 +20,6 @@ exports.all = function( app ){
 	app.use( function *(next){
 
 		try{
-			
 			if( this.path == '/' ){
 				yield next;
 				return;
@@ -42,6 +41,7 @@ exports.all = function( app ){
 			logger.logInfo.info( this.method + '::::' + this.path + 'end use time ' + _timeU );
 		} catch (e){
 			logger.logWarn.error( e );
+			this.body = { code: -1, msg: 'server error' };
 		}
 
 	});
@@ -61,7 +61,6 @@ exports.all = function( app ){
 	router.get( '/action/fetch', function *( next ){
 		
 		this.body = yield action.fetch( this );
-		logger.logInfo.info( this.method + '::::' + this.path + '11end' );
 
 	});
 

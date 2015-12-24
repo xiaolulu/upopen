@@ -54,7 +54,8 @@ function *requestA( options ){
 	var options = {
 		url: options.hostname + options.path,
 		method: options.method,
-		form: options.data
+		form: options.data,
+		headers: options.headers
 	};
 	console.log( options );
 	var ret = yield request(options); //Yay, HTTP requests with no callbacks! 

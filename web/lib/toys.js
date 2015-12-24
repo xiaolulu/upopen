@@ -1,8 +1,16 @@
 
 var http	= require( 'http' ),
 	qs		= require( 'querystring' ),
-	config	= require( '../config/mysql' ),
+	config	= require( '../config/server' ),
+	logger	= require( './logger' ),
+	domain	= require( 'domain' ),
 	crypto	= require( 'crypto' );
+
+var Domain = domain.create();
+
+Domain.on( 'error', function( e ){
+	logger.error( e );
+});
 
 function exist( req, res, method ){
 	if( req.method == method ){
@@ -84,5 +92,6 @@ module.exports = {
 	createSID: createSID,
 	checkSID: checkSID,
 	request: request,
+	Domain: Domain,
 	Cookie: Cookie
 }
