@@ -23,7 +23,7 @@ var Schema = {
 			content: {
 				required: 101030,
 				min: [6, 101031],
-				max: [8000, 101032]
+				max: [20000, 101032]
 			},
 			owner: {
 				required: 101040,

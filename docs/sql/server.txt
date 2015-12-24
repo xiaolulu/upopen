@@ -7,7 +7,7 @@ create table user( id varchar(40) not null primary key, username varchar(40), pa
 /**************************
 create blog table
 ***************************/
-create table blog( id int(10) auto_increment not null primary key, title varchar(40), summary text(1000), content text(10000),date TIMESTAMP not null default now(), owner varchar(40), sort int(2), view int(10), comment int(5), disabled int(1), kind varchar(40), tags varchar( 100 ) )AUTO_INCREMENT=10000 charset=utf8;
+create table blog( id int(10) auto_increment not null primary key, title varchar(40), summary text(1000), content text(31000),date TIMESTAMP not null default now(), owner varchar(40), sort int(2), view int(10), comment int(5), disabled int(1), kind varchar(40), tags varchar( 100 ) )AUTO_INCREMENT=10000 charset=utf8;
 
 /**************************
 create comment table
