@@ -5,7 +5,7 @@ module.exports = {
 		{'type': 'console','category':'console'},
 		{
 			'type': 'dateFile',
-			'filename':'/root/root/upopen/logg/server/',
+			'filename':'/root/root/upopen/log/server/',
 			'pattern':'yyyyMMdd.log',
 			'absolute':true,
 			'alwaysIncludePattern':true,
