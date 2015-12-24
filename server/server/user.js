@@ -107,8 +107,8 @@ function create( req, res ){
 					username: req.body.username
 				};
 			redis.set( jsessionid, qs.stringify( redisData ) );
-			res.cookie( 'JSESSIONID', jsessionid, {path: '/',domain:'upopen.com', maxAge: 36000*1000 } );
-			res.cookie( 'username', req.body.username, {path: '/',domain:'upopen.com', maxAge: 36000*1000 } );
+			res.cookie( 'JSESSIONID', jsessionid, {path: '/',domain:'upopen.cn', maxAge: 36000*1000 } );
+			res.cookie( 'username', req.body.username, {path: '/',domain:'upopen.cn', maxAge: 36000*1000 } );
 			res.send({ code: 0, msg: 'create user success', data: docs } );
 			mailer({
 				to: redisData.username,
@@ -136,8 +136,8 @@ function login( req, res ){
 					username: req.query.username
 				};
 			redis.set( jsessionid, qs.stringify( redisData ) );
-		res.cookie( 'JSESSIONID', jsessionid, {path: '/',domain:'upopen.com' } );
-		res.cookie( 'username', req.query.username, {path: '/',domain:'upopen.com', maxAge: 36000*1000 } );
+		res.cookie( 'JSESSIONID', jsessionid, {path: '/',domain:'upopen.cn' } );
+		res.cookie( 'username', req.query.username, {path: '/',domain:'upopen.cn', maxAge: 36000*1000 } );
 		res.send({ code: 0, msg: 'fetch user success', data: docs } );
 	})
 
@@ -165,7 +165,7 @@ function logout( req, res ){
 	}
 	var jsessionid = toys.Cookie.get( req, 'JSESSIONID' );
 	redis.set( jsessionid, null );			
-	res.cookie( 'JSESSIONID', '', {path: '/',domain:'upopen.com', maxAge: -1000 } );
+	res.cookie( 'JSESSIONID', '', {path: '/',domain:'upopen.cn', maxAge: -1000 } );
 	res.send({ code: 0, msg: 'logout success', data: [] } );
 
 }
