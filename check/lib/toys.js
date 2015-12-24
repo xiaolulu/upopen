@@ -50,13 +50,13 @@ function checkSID( req ){
 	return createSID( req ) == _cookie;
 }
 
-function *request( options ){
+function *requestA( options ){
 	var options = {
 		url: options.hostname + options.path,
 		method: options.method,
-		data: options.data,
-		headers: { 'User-Agent': 'request' }
+		form: options.data
 	};
+	console.log( options );
 	var ret = yield request(options); //Yay, HTTP requests with no callbacks! 
 	return JSON.parse(ret.body);
 	
@@ -66,7 +66,7 @@ module.exports = {
 	exist: exist,
 	createSID: createSID,
 	checkSID: checkSID,
-	request: request,
+	requestA: requestA,
 	Cookie: Cookie,
 	Domain: Domain
 }

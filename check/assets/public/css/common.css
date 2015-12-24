@@ -113,6 +113,7 @@ header .navigator dd:first-child{
 
 header .navigator dd.userHeadWrap{
 	margin-right: 65px;
+	position: relative;
 }
 
 header .navigator dd a{
@@ -123,6 +124,19 @@ header .navigator dd a{
 
 header .navigator .userHeadWrap a{
 	padding: 5px;
+}
+
+header .userHeadMenu{
+	background: #fff;
+	width: 100px;
+	position: absolute;
+	z-index: 10;
+	display: none;
+	margin-left: -15px;
+}
+
+header .navigator .userHeadMenu a{
+	display: block;
 }
 
 .header{
@@ -172,34 +186,35 @@ section{
 }
 
 /**************
-blog
+main
 ***************/
-.blog{
+.main{
 	float: left;
+	min-height: 1000px;
 	width: 700px;
 	border-top-right-radius: 40px;
 	background: #fff;
 	padding: 0 50px;
 }
 
-.blog .info{
+.main .info{
 	border-bottom: 3px solid #E8E8E8;
 }
 
-.blog .title{
+.main .title{
 	font-size: 24px;
 	line-height: 60px;
 	float: left;
 	color: #657076;
 }
 
-.blog .head{
+.main .head{
 	float: right;
 	border: 3px solid #e8e8e8;
 	border-radius: 25px;
 }
 
-.blog .type{
+.main .type{
 	display: inline-block;
 	margin: 23px 0 0 20px;
 	background: #F87428;
@@ -207,32 +222,37 @@ blog
 	padding: 0 2px;
 }
 
-.blog .content{
+.main .content{
 	line-height: 1.8em;
 	margin: 15px 0 0 0;
 }
 
-.blog .viewAll{
+.main .viewAll{
 	text-decoration: underline;
 	color: #00B19E
 }
 
-.blog .tool{
+.main .tool{
 	text-align: right;
 	line-height: 36px;
 }
 
-.blog .toolItem{
+.main .toolItem{
 	margin-left: 10px;
 }
 
 /**************
 slide
 ***************/
+.slideBox{
+	width: 200px;
+	margin-top: 60px;
+	float: right;
+	color: #fff;
+}
 .slide{
 	width: 200px;
 	padding: 50px 0;
-	float: right;
 	color: #fff;
 }
 
@@ -393,7 +413,6 @@ dialog
 
 .signInBtn{
 	width: 100%;
-	margin-left: 0;
 }
 
 .signInTag{
@@ -404,5 +423,6 @@ dialog
 }
 
 .singInLink{
-	color: #00FF73;
+	color: #ff0;
+	text-shadow: 0px 0px 3px #12FF00;
 }

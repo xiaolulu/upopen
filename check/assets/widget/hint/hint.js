@@ -1,6 +1,7 @@
 
 
 var base = require( '../../core/js/base.js' );
+require( './hint.css' );
 
 var Hint = function(){
 	this.init();

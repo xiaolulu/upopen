@@ -1,11 +1,17 @@
 
 
 var hint = require( '../../widget/hint/hint.js' ),
-	DOC = require( './zh.js' );
+	DOC = require( './zh.js' ),
+	MD5 = require( '../../core/js/md5' ),
+	Base = require( '../../core/js/base' ),
+	Validate = require( '../../widget/validate/validate' ),
+	Event = require( '../../core/js/event' );
 
 var singIn = true,
 	username = $( '#username' ),
-	password = $( '#password' )
+	usernameErr = $( '#usernameErr' ),
+	password = $( '#password' ),
+	passwordErr = $( '#passwordErr' );
 
 function signInDialogToggle( show ){
 	if( show ){
@@ -64,6 +70,9 @@ forUsername.on( 'click', function(){
 });
 
 username.on( 'blur', function(){
+	if( Validate( username, usernameRule ) !== true ){
+		return;
+	}
 	if( this.value ){
 		forUsername.addClass( 'hide' );
 	} else {
@@ -71,6 +80,7 @@ username.on( 'blur', function(){
 	}
 	forUsername.removeClass( 'holderOn' ).addClass( 'holderOff' );
 }).on( 'focus', function(){
+	forUsername.removeClass( 'hide' );
 	forUsername.addClass( 'holderOn' ).removeClass( 'holderOff' );
 	username.get( 0 ).focus();
 });
@@ -81,6 +91,9 @@ forPassword.on( 'click', function(){
 });
 
 password.on( 'blur', function(){
+	if( Validate( password, passwordRule ) !== true ){
+		return;
+	}
 	if( this.value ){
 		forPassword.addClass( 'hide' );
 	} else {
@@ -88,19 +101,45 @@ password.on( 'blur', function(){
 	}
 	forPassword.removeClass( 'holderOn' ).addClass( 'holderOff' );
 }).on( 'focus', function(){
+	forPassword.removeClass( 'hide' );
 	forPassword.addClass( 'holderOn' ).removeClass( 'holderOff' );
 	password.get( 0 ).focus();
 });
 
-$( '.signInForm' ).on( 'submit', function(){
+var usernameRule = [
+		{
+			'required': '',
+			'email': '',
+			'max': [30]
+		},
+		function cb( prompt ){
+			usernameErr.html( ' ' + prompt );
+		}
+	],
+	passwordRule = [
+		{
+			'required': '',
+			'min': [6],
+			'max': [30]
+		},
+		function cb( prompt ){
+			passwordErr.html( ' ' + prompt );
+		}
+	];
 
+$( '.signInForm' ).on( 'submit', function(){
+	/*var uRet = Validate( username, usernameRule ),
+		pRet = Validate( password, passwordRule );
+	if( uRet !== true ||  pRet !== true ){
+		return false;
+	}*/
 	var data = {
 			username: username.val(),
-			password: password.val()
+			password: MD5.hex_md5( password.val() )
 		},
 		_singIn = singIn;
 	$.ajax({
-		url: _singIn ? '/user/login' : '/user/register',
+		url: _singIn ? 'http://web.upopen.com/user/login' : 'http://web.upopen.com/user/register',
 		type: _singIn ? 'get': 'post',
 		dataType: 'json',
 		data: data,
@@ -132,9 +171,58 @@ function checkState(){
 	userState( jsid || false );
 }
 
+$( '.logout' ).on( 'click', function( ret ){
+	$.ajax({
+		url: '/user/logout',
+		type: 'get',
+		dataType: 'json',
+		data: {},
+		success: function( ret ){
+			window.location.href = window.location.protocol + '//' + window.location.host;
+		}
+	});
+});
+
+var userHeadMenu = $( '#userHeadMenu' ),
+	_userHeadMenuSet;
+$( '#userHead' ).on( 'mouseenter', function(){
+	clearTimeout( _userHeadMenuSet );
+	userHeadMenu.show();
+}).on( 'mouseleave', function(){
+	_userHeadMenuSet = setTimeout( function(){ userHeadMenu.hide() },500 );
+});
+
+userHeadMenu.on( 'mouseenter', function(){
+	clearTimeout( _userHeadMenuSet );
+}).on( 'mouseleave', function(){
+	_userHeadMenuSet = setTimeout( function(){ userHeadMenu.hide() },500 );
+});
+
+/******
+logo 3d
+******/
+window.logo3d = function( add ){
+	if( add ){
+		$( '.logo_icon' ).addClass( 'logo_3d' )
+	} else {
+		$( '.logo_icon' ).removeClass( 'logo_3d' )
+	}
+};
+
+
+
+$(window).scroll(function(){
+	if( $('body').height() - this.scrollY < 800 ){
+		$( this ).trigger( 'scrollLoading' );
+	}
+});
+
+
+
 (function(){
 	checkState();
 })();
+
 
 $(window).scroll(function(){
 	if( this.scrollY >= 64 ){

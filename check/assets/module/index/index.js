@@ -1,5 +1,6 @@
 
 require( '../../public/js/common.js' );
+var Hint = require( '../../widget/hint/hint.js' );
 
 var ActionParam = React.createClass({
 	addItem: function(){
@@ -54,6 +55,7 @@ var ActionBox = React.createClass({
 			kind: this.refs.kind.value,
 			description: this.refs.description.value,
 			url: this.refs.url.value,
+			id: this.props.data.id,
 			method: this.refs.method.value
 		};
 		var params = {};
@@ -117,7 +119,7 @@ var ActionBox = React.createClass({
 					<button type="button" onClick={this.test} className="test">test</button>
 					<button type="button" onClick={this.save} className="save">save</button>
 				</form>
-				<pre refs="result"></pre>
+				<pre refs="result">{this.props.data.result}</pre>
 			</section>
 		)
 	}
@@ -132,7 +134,8 @@ var ActionWrap = React.createClass({
 		description: '',
 		url: '',
 		method: 'POST',
-		params: '{"":""}'
+		params: '{"":""}',
+		result: ''
 	},
 
 	getInitialState: function(){
@@ -144,7 +147,8 @@ var ActionWrap = React.createClass({
 				description: '',
 				url: '',
 				method: 'POST',
-				params: '{"":""}'
+				params: '{"":""}',
+				result: ''
 			}]}	
 	},
 	remove: function( index ){
@@ -183,22 +187,17 @@ var ActionWrap = React.createClass({
 			success: function( ret ){
 				//me.result.html( JSON.stringify( ret, null, 8 ) );
 				//new Demo( ret.data, function( el ){ $( 'section' ).first().after( el )} );
+				data.result = '';
 				if( ret.code === 0 ){
 					if( index ){
 						this.state.data.splice( index, 1, data )
 					} else {
 						this.state.data.splice( index+1, 0, data )
 					}
-					
 					this.setState( { data: this.state.data } );
 				}
-			}.bind( this ),
-			error: function( e ){
-				console.log( e )
-			},
-			failed: function( e ){
-				console.log( e )
-			}
+				Hint.show( ret.msg );
+			}.bind( this )
 		});
 		return false;
 	},
@@ -224,15 +223,13 @@ var ActionWrap = React.createClass({
 			dataType: 'json',
 			data: data,
 			success: function( ret ){
-				//me.result.html( JSON.stringify( ret, null, 8 ) );
+				data.result = JSON.stringify(ret.data,null,8);
+				delete data.actionConfig;
+				data.params = JSON.stringify( data.params );
+				this.state.data.splice( index, 1, data );
+				this.setState( { data: this.state.data } );
 				console.log( ret );
-			},
-			error: function( e ){
-				console.log( e )
-			},
-			failed: function( e ){
-				console.log( e )
-			}
+			}.bind( this )
 		});
 	},
 	fetchData: function(){

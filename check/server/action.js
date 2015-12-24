@@ -89,7 +89,7 @@ function *checkAction( data ){
 		options[ 'headers' ]['content-length'] = qs.stringify( data ).length;
 	}
 
-	return yield toys.request( options );
+	return yield toys.requestA( options );
 }
 
 

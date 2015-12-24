@@ -34,9 +34,26 @@ define(function(){
 
 	}
 
+	function searchHref( id ){
+		
+		try{
+			var _search = window.location.search.slice(1).split(';'),
+				data = {};
+			for( var i = 0; i < _search.length; i++ ){
+				var li = _search[i].split( '=' );
+				data[ li[0] ] = li[1];
+			}
+			return data[ id ];
+		} catch (e){
+			return null;
+		}
+
+	}
+
 	return {
 		extend: extend,
 		apply: apply,
-		isArray: isArray
+		isArray: isArray,
+		searchHref: searchHref
 	}
 })
