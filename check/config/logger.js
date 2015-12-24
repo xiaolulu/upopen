@@ -16,14 +16,14 @@ module.exports = {
 		{
 			'type': 'dateFile',
 			'category':'warn',
-			'filename':'/home/cc/Work/upopen/log/check/',
+			'filename':'/root/root/upopen/log/check/',
 			'pattern':'yyyyMMdd_warn.log',
 			'alwaysIncludePattern':true
 		},
 		{
 			'type': 'file',
 			'category': 'file',
-			'filename': '/home/cc/Work/upopen/log/check/file.log',
+			'filename': '/root/root/upopen/log/check/file.log',
 			'maxLogSize': 1024*1028*10,		
 			'backups': 2
 		}
