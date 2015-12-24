@@ -9,7 +9,7 @@ module.exports = {
 		{
 			'type': 'dateFile',
 			'category':'info',
-			'filename':'/home/cc/Work/upopen/log/check/',
+			'filename':'/root/root/upopen/log/check/',
 			'pattern':'yyyyMMdd_info.log',
 			'alwaysIncludePattern':true
 		},
