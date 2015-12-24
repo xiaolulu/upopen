@@ -1,5 +1,5 @@
 
 module.exports = {
-	hostname: 'server.upopen.com',
+	hostname: 'server.upopen.cn',
 	port: 80
 }
