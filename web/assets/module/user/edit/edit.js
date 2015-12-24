@@ -19,7 +19,8 @@ require([ 'hint', 'common' ], function( hint ){
 		var data = {
 				title: title.val(),
 				content: editor.val(),
-				kind: type.val()
+				kind: type.val(),
+				tags: type.val()
 			}
 			url = '/blog/create';
 		if( _id ){

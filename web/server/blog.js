@@ -47,8 +47,6 @@ function create( req, res ){
 	data.comment = 0;
 	data.view = 0;
 	data.disabled = 0;
-	data.tags = '';
-	console.log( data.summary );
 	var config = {
 			path : '/blog/create',
 			method : 'POST',
