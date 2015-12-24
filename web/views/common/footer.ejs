@@ -22,5 +22,13 @@
 <script src="/assets/core/js/jquery.min.js" type="text/javascript"></script>
 <script src="/assets/core/js/jquery.cookies.min.js" type="text/javascript"></script>
 <script src="/assets/core/js/require.js" data-main="/assets/module<%= path %>.js"></script>
+<script>
+if( location.host.indexOf('upopen.cn') > -1 ){
+	var hm = document.createElement("script");
+	hm.src = "//hm.baidu.com/hm.js?fca615d6ad621b43ae678025faa5727e";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+}
+</script>
 </body>
 </html>
