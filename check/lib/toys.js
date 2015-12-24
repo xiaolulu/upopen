@@ -1,7 +1,6 @@
 
 var http	= require( 'http' ),
 	qs		= require( 'querystring' ),
-	BH		= require( 'BufferHelper' ),
 	logger	= require( './logger' ),
 	domain	= require( 'domain' ),
 	request	= require( 'koa-request' ),
