@@ -80,20 +80,20 @@
 .markdown h4:before,
 .markdown h5:before,
 .markdown h6:before {
-  content: "## ";
+  /*content: "## ";*/
   display: inline;
 }
 .markdown h3:before {
-  content: "### ";
+  /*content: "### ";*/
 }
 .markdown h4:before {
-  content: "#### ";
+  /*content: "#### ";*/
 }
 .markdown h5:before {
-  content: "##### ";
+  /*content: "##### ";*/
 }
 .markdown h6:before {
-  content: "###### ";
+  /*content: "###### ";*/
 }
 .markdown li {
   position: relative;
@@ -117,8 +117,8 @@
   counter-increment: ol;
 }
 .markdown pre {
-  margin-left: 34px;
-  padding-left: 4ch;
+  padding: 4ch;
+  background-color: #f6f6f6;
 }
 .markdown blockquote {
   position: relative;
