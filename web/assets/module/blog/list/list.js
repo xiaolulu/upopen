@@ -56,6 +56,7 @@ require([ 'common' ], function(){
 
 	function render( item ){
 		//item.summary += '<br>.....<br /><a class="viewAll">&lt;view all&gt;</a>';
+		item.date = item.date.slice(0,10);
 		var el = blogTmp.replace( /\{(.*?)\}/g, function( $1, $2 ){
 			return item[ $2 ];
 		});

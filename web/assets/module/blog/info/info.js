@@ -43,6 +43,7 @@ require([ 'hint', 'validate', 'common' ], function( hint, Validate ){
 	}
 
 	function render( item ){
+		item.date = item.date.slice(0,10);
 		var el = blogTmp.replace( /\{(.*?)\}/g, function( $1, $2 ){
 			return item[ $2 ];
 		});
@@ -104,7 +105,7 @@ require([ 'hint', 'validate', 'common' ], function( hint, Validate ){
 		return false;
 	});
 
-	var commentTmp = ['<div><span class="user">{username}</span><span class="date">{date}</span></div><div class="content markdown">{content}</div>'].join('');
+	var commentTmp = ['<div><a href="{href}" class="user">{username}</a><span class="date">{date}</span></div><div class="content markdown">{content}</div>'].join('');
 	function fetchComment( belong ){
 		$.ajax({
 			url: '/comment/fetchList',
@@ -128,6 +129,11 @@ require([ 'hint', 'validate', 'common' ], function( hint, Validate ){
 	}
 	
 	function renderCommentItem( key, item ){
+		if( item.OWNER == 'visitor' ){
+			item.href =  'javascript:void(0)'
+		} else {
+			item.href = '/user/info?id=' + item.OWNER;
+		}
 		var el = $( '<div>' ).addClass( 'commentItem' ).append( commentTmp.replace( /\{(.*?)\}/g, function( $1, $2 ){
 			return item[ $2 ];
 		}));
