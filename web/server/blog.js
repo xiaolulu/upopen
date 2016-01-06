@@ -67,7 +67,6 @@ function update( req, res ){
 	}
 	var data = req.body;
 	
-	data.owner = value.id;
 	var config = {
 			path : '/blog/update',
 			method : 'POST',
