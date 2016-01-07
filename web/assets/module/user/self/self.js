@@ -23,7 +23,11 @@ require([ 'hint', 'common' ], function( hint ){
 						'<span>date: {date}</span>',
 					'</div>'].join('');	
 
-	function fetchBlog(){
+	function fetchBlog( start, limit ){
+		var data = {};
+		loading = true;
+		data.start = start;
+		data.limit = limit;
 		$.ajax({
 			url: '/blog/fetchEdit',
 			type: 'get',
@@ -32,8 +36,11 @@ require([ 'hint', 'common' ], function( hint ){
 			success: function( ret ){
 				if( ret.code == 0 ){
 					render( ret.data );
+					if( ret.data.length == limit ){
+						loading = false;
+					}
+					logo3d(0);
 				}
-				console.log( ret );
 			}
 		});
 	}
@@ -133,8 +140,17 @@ require([ 'hint', 'common' ], function( hint ){
 		}
 	});	
 
+	var loading = false,
+		start = 0,
+		limit = 5;
+
 	!function(){
 		fetchBlog();
+		$( window ).on( 'scrollLoading', function(){
+			if( !loading ){
+				fetchBlog( start += limit, limit )
+			}
+		})
 	}();
 
 })
