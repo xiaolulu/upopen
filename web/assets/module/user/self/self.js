@@ -142,10 +142,10 @@ require([ 'hint', 'common' ], function( hint ){
 
 	var loading = false,
 		start = 0,
-		limit = 5;
+		limit = 15;
 
 	!function(){
-		fetchBlog();
+		fetchBlog( start, limit );
 		$( window ).on( 'scrollLoading', function(){
 			if( !loading ){
 				fetchBlog( start += limit, limit )
