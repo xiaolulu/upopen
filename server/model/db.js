@@ -102,7 +102,7 @@ function fetch( fields, data, db, cb ){
 		fields = '*';
 	}
 	var condition = format( data, 'where' );
-	var sql = 'select ' + fields + ' from ' + db + condition.where + condition.limit;
+	var sql = 'select ' + fields + ' from ' + db + condition.where + ' order by date DESC ' + condition.limit;
 	query( sql, cb )
 }
 
