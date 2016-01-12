@@ -1,22 +1,11 @@
 
 define(function(){
 	
-	String.prototype.trim = String.prototype.trim || function(){
+	String.prototype.trim = function(){
 		return this.replace(/^\s*/,'').replace(/\s*$/,'');
 	}
 	
 	/******************/
-	//extend
-	function extend( source, parent ){
-		
-		//var args = Array.prototype.slice( arguments, 1 );
-		for( var p in parent ){
-			source[p] = parent[p]
-		}
-		return source;
-
-	}
-
 	function apply( destination ){
 		var args = Array.prototype.slice.call(arguments, 1),
 			source;
@@ -34,10 +23,13 @@ define(function(){
 
 	}
 
-	function searchHref( id ){
-		
+	function searchHref( location, id ){
+		if( !id ){
+			id = location;
+			location = window.location.search.slice(1);
+		}
 		try{
-			var _search = window.location.search.slice(1).split(';'),
+			var _search = location.split(';'),
 				data = {};
 			for( var i = 0; i < _search.length; i++ ){
 				var li = _search[i].split( '=' );
@@ -51,7 +43,6 @@ define(function(){
 	}
 
 	return {
-		extend: extend,
 		apply: apply,
 		isArray: isArray,
 		searchHref: searchHref
