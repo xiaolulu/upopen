@@ -10,45 +10,8 @@ require.config({
 
 require([ 'hint', 'validate', 'common' ], function( hint, Validate ){
 
-	var blogTmp = ['<div class="info clearfix">',
-						'<span class="title">{title}</span>',
-						'<a class="type" href="/blog/list?kind={kind}">{kind}</a>',
-						'<img class="head" src="/assets/public/imgs/head.png" width="42" />',
-					'</div>',
-					'<div class="tool">',
-						'<span class="toolItem view">Views: {view}</span>',
-						'<span class="toolItem talk">Comments: {comment}</span>',
-						'<span class="toolItem date">Date: {date}</span>',
-					'</div>',
-					'<div class="content clearfix markdown">{content}</div>'].join(''),
-		blogId;
+	var blogId;
 
-	function fetchBlog( id ){
-		var data = {id: id };
-		$.ajax({
-			url: '/blog/fetchList',
-			type: 'get',
-			dataType: 'json',
-			data: data,
-			success: function( ret ){
-				if( ret.code == 0 ){
-					fetchComment( id );
-					render( ret.data[0] );
-					$( '#commentUser' ).val( $.cookies.get('username') || '' )
-				} else {
-
-				}
-			}
-		})
-	}
-
-	function render( item ){
-		item.date = item.date.slice(0,10);
-		var el = blogTmp.replace( /\{(.*?)\}/g, function( $1, $2 ){
-			return item[ $2 ];
-		});
-		$( '#blogBox' ).prepend( $( '<section>' ).append( el ) );
-	}
 
 	/***************
 	comment
@@ -141,7 +104,7 @@ require([ 'hint', 'validate', 'common' ], function( hint, Validate ){
 	}
 
 	!function(){
-		fetchBlog( blogId = location.search.slice(1).split('=')[1] );
+		fetchComment( blogId = location.search.slice(1).split('=')[1] );
 	}();
 
 })

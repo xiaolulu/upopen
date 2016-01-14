@@ -4,6 +4,7 @@ var http	= require( 'http' ),
 	config	= require( '../config/server' ),
 	logger	= require( './logger' ),
 	domain	= require( 'domain' ),
+	fs		= require( 'fs' ),
 	crypto	= require( 'crypto' );
 
 var Domain = domain.create();
@@ -87,11 +88,24 @@ function request( options, req, res, cb, fixed ){
 
 }
 
+function htx2Ejs( model, source, path, cb ){
+	fs.readFile( source + '.htx','utf8', function( err, data ){
+		data = data.replace( /\{(.*?)\}/g, function( $1, $2 ){
+				return model[ $2 ];
+			}) ;
+
+		fs.writeFile( path + '.ejs', data,  function( e ){
+			cb( e );
+		});
+	});
+}
+
 module.exports = {
 	exist: exist,
 	createSID: createSID,
 	checkSID: checkSID,
 	request: request,
 	Domain: Domain,
-	Cookie: Cookie
+	Cookie: Cookie,
+	htx2Ejs: htx2Ejs
 }

@@ -30,7 +30,7 @@ function info( req, res ){
 	if( !toys.exist( req, res, 'GET' ) ){
 		return;
 	}
-	res.render( 'blog/info.ejs', config( req ) );
+	res.render( 'blog/info/' + req.query.id+ '.ejs', config( req ) );
 
 }
 
@@ -112,6 +112,38 @@ function fetchSelf( req, res, cb ){
 	
 }
 
+function rebuildInfo( req, res ){
+	
+	if( !toys.exist( req, res, 'GET' ) ){
+		return;
+	}
+	var config = {
+			path : '/blog/fetch',
+			method : 'GET',
+			data: req.query
+		},
+		cb = function( ret ){
+			ret = JSON.parse( ret );
+			ret.data.map( function( item ){
+				item.content = marked( item.content );
+				item.summary = marked( item.summary );
+			});
+			renderInfo( ret.data, 'views/blog/info', 'views/blog/info/');
+			res.send({code:0,msg: 'rebuildInfo success'});
+		};
+
+	toys.request( config, req, res, cb );	
+
+}
+
+function renderInfo( items, source, path ){
+
+	for( var i = 0; i < items.length; i++ ){
+		toys.htx2Ejs( items[i], source, path + items[i].id );
+	}
+
+}
+
 function fetch( req, res, cb ){
 	
 	if( !toys.exist( req, res, 'GET' ) ){
@@ -158,6 +190,7 @@ module.exports = {
 	fetch: fetch,
 	update: update,
 	remove: remove,
+	rebuildInfo: rebuildInfo,
 	fetchList: fetchList,
 	fetchEdit: fetchEdit
 
