@@ -117,6 +117,7 @@ function rebuildInfo( req, res ){
 	if( !toys.exist( req, res, 'GET' ) ){
 		return;
 	}
+	req.query.limit = 10000;
 	var config = {
 			path : '/blog/fetch',
 			method : 'GET',
