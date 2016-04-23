@@ -1,0 +1,176 @@
+<% include ../../common/header.ejs %>
+<div class="main" id="blogBox">
+	<section>	
+		<div class="info clearfix">
+			<span class="title">全栈开发技术栈---项目实践二 概述</span>
+			<a class="type" href="/blog/list?kind=nodejs">nodejs</a>
+			<img class="head" src="/public/imgs/head.png" width="42" />
+		</div>
+		<div class="tool">
+			<!--span class="toolItem view">Views: 73</span>
+			<span class="toolItem talk">Comments: 0</span-->
+			<span class="toolItem date">Date: 2016-01-06</span>
+		</div>
+		<div class="content clearfix markdown"><p>一、简介</p>
+
+<p>  经过一个月+的开发，upopen.cn个人站点重构基本完成，本文先总结整体架构及主要技术点，后续再单独详解各技术点及开发过程。</p>
+
+<p>  首先重构的目的在于系统化架构、理清分离开发及服务端开发思维、尝试使用多的技术点，为提升公司项目的全栈应用做准备。</p>
+
+<p>本次共计三个服务[小部分技术点还在提交中]，整体采用前后端分离（web服务端，数据服务端），以restful API通信</p>
+
+<p>站点: !&lt;www.upopen.cn&gt;</p>
+
+<p>git: https://github.com/xiaolulu/upopen</p>
+
+<p>QQ群: 435485569</p>
+
+<hr/>
+
+<p><strong>系统功能</strong></p>
+
+<p>web: web服务端</p>
+
+<p>  站点前台服务，属前后端分离中的前台，负责页面渲染、与客户端及server端的数据交互，使用http协议</p>
+
+<p>server: 数据服务端</p>
+
+<p>  站点后台服务，属前后端分离中的后台，与web服务端及数据库的数据交互，不直接与客户端通信，实际项目中常会用java实现</p>
+
+<p>check:</p>
+
+<p>  属工具类服务，用于记录、验证接口功能，在前后端分离过程中，以方便并行开发</p>
+
+<p>=============================================================================</p>
+
+<p>二、系统架构
+<img alt="系统架构" src="http://dl2.iteye.com/upload/attachment/0114/3539/059e6c1b-6dda-34af-8296-0d370b7d7f17.png"/></p>
+
+<p>三、系统目录</p>
+
+<p>docs:系统文档</p>
+
+<p>log: 系统日志，独立成单独的服务</p>
+
+<pre><code>web/
+
+check/
+
+server/</code></pre>
+
+<p>check: 接口记录、验证系统，整体采用MVSC结构，server、web系统也采用相同结构</p>
+
+<pre><code>app.js
+
+package.json
+
+webpack.config.js
+
+assets/		静态资源包
+
+build/		react打包后文件
+
+model/		数据层
+
+views/		展示层
+
+controls/	控制层
+
+server/		业务层
+
+lib/		工具包
+
+config/		配置，运行前需要修改各config里的配置项
+
+test/		测试</code></pre>
+
+<p>server: 大致同check</p>
+
+<p>web: 大致同check，多了gulp</p>
+
+<p>static: 静态资源文件</p>
+
+<p>upload: 上传资源文件</p>
+
+<p>=============================================================================</p>
+
+<p>四、技术点：</p>
+
+<p>罗列本系统用到的一些有代表性的技术点，后续再分别详解。</p>
+
+<p>1、nginx: 作为分发服务器，域名服务分发、缓存、GZIP压缩、负载等</p>
+
+<p>2、nodejs: web、server、check系统，其中server在公司项目中常用更成熟的语言开发，如java</p>
+
+<p>3、express: web、server系统使用，是目前最常使用的nodejs框架，我也一直在使用</p>
+
+<p>4、koa: check系统使用，与express的主要区别在于异步回调的同步写法的实现，以解决回调金字塔的问题，回调金字塔很早就被问到过，不过当时认为这个不是问题，自身项目通常三层回调就可以解决了，并且函数分配合理，对易读性也不会有太大影响，不过本次开发过程中尝试使用了KOA，其对代码的易读、精简、组织上还是有很大的提升的，建议使用，需要一定的学习成本，另外其对一些已经开发第三方插件未全面支持，如redis、request等，需要再次包装同步调用机制，当然例举的这两个已经有了co-redis、koa-request。</p>
+
+<p>5、ejs: web系统使用，做页面渲染引擎，html在程序的语法上支持有限，jade成本会更高些，ejs在语法上和html一致，额外又支持数据语法。昨天和朋友讨论过这个问题，这也是很多初次接触分离的人疑问，为什么不直接使用html，数据全部用ajax，首先以我遇到的项目，全部走ajax是可行的，但有些页面变量据服务端配置动态获取会更好，并且在考虑SEO的时候数据更要直接渲染</p>
+
+<p>6、redis: server、web系统使用，缓存服务器，用于暂存一些状态数据，以便快速读写，如登录成功后由server将该用户数据写入到redis，并将对应的key通过web写入页面cookie，获取用户数据时，web都会先到redis里获取该用户是否登录。在对数据读取效率要求很高的情况下，也可以将数据库数据全部同步到redis，从redis读取，增删改操作数据库后，同步到redis.</p>
+
+<p>7、mongodb: check系统数据库，用于记录接口列表，简单易用，效率较高</p>
+
+<p>8、mysql: server系统数据库，区别于mongo，其在实际项目应用更广泛。</p>
+
+<p>9、reactJs: check系统页面，该系统是单页面，接口记录、验证抽象成组件，使用reactjs在开发及model维护上效率较高。</p>
+
+<p>10、webpack: check系统页面模块化、打包工具，配合reactJs</p>
+
+<p>11、requireJs: web系统页面模块化。</p>
+
+<p>12、log4js: web、server、check系统日志管理，服务端开发日志记录是必须的，常规的数据收发、异常错误跟踪、性能优化（如当某请求返回超过3秒就需要记录了）</p>
+
+<p>13、shouldJs、supertest、jasmine、coverage、karma: 共同组成单元测试方案</p>
+
+<p>14、gulp: web集成jshint、unglify等的自动打包工具</p>
+
+<p>15、nodemailer: server系统使用，用户注册成功后发送邮件到对方邮箱。</p>
+
+<p>写了一篇文章：http://www.upopen.cn/blog/info?id=10020</p>
+
+<p>16、pm2: Nodejs进程管理器</p>
+
+<p>写了一篇文章：http://www.upopen.cn/blog/info?id=10021</p>
+
+<p>17、socket.io: web系统使用，在线用户所属数据改变时推送。</p>
+
+<p>18、其它，如http协议、加密、静态化等。</p>
+
+<hr/>
+
+<p>五、其它</p>
+
+<p>系统在开发过程中，本着实用、多用的原则，推迟了开发周期，也尽量详细了解、记录了各软件、插件的使用。如mongodb的连接简单来讲就是</p>
+
+<p>   mongoose.connect( &#39;mongodb://&#39; + config.host + &#39;/&#39; + config.db );</p>
+
+<p>这也是常见demo的写法，即没有负载备份也没有验证，但实际使用时其至比项目程序的负载更重要，所以是应该写成 </p>
+
+<pre><code>var options = {
+  db: { native_parser: false },
+  server: { poolSize: 15 },
+  replset: { rs_name: &#39;rename&#39; },
+  user: &#39;username&#39;,
+  pass: &#39;password&#39;
+}
+
+mongoose.connect( &#39;mongodb://10.10.10.1:27017,10.10.10.2:27017,10.10.10.3:27017/updb&#39;, options );</code></pre>
+
+<p>对其它一些的插件也从实际使用过程中多了一些自己的理解，后续更新，希望会大家有所帮助</p></div>
+	</section>
+	<div class="comments">
+		<div class="commentWrap" id="commentWrap">
+			
+		</div>
+		<form class="commentForm" id="commentForm">
+			<input type="text" placeHolder="you name" id="commentUser" maxLength="30" class="commentUser" /><br />
+			<textarea class="commentContent" id="commentContent" rows="6" maxLength="1000" placeHolder="your comment for this blog within 1000 words"></textarea><br />
+			<button type="submit" id="commentBtn" class="btn">SAVE COMMENT</button><br /><br />
+		</form>
+	</div>
+</div>
+
+<% include ../../common/slide.ejs %>
+<% include ../../common/footer.ejs %>

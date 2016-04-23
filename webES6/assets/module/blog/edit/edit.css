@@ -1,0 +1,53 @@
+.userInfo {
+  padding: 40px;
+  min-height: 400px;
+  background: #fff; }
+
+.profile {
+  width: 200px;
+  min-height: 300px;
+  float: right;
+  background: #f00; }
+
+.editorForm {
+  width: 700px;
+  float: left;
+  margin-top: 50px; }
+
+.editorForm .title {
+  padding: 0 8px;
+  border: 1px solid #1AAFD0;
+  outline: 0px;
+  width: 520px;
+  font-size: 24px; }
+
+.editorForm .editType {
+  padding: 5px;
+  outline: 0px;
+  width: 150px;
+  height: 46px;
+  float: right;
+  display: inline-block;
+  background: #F87428;
+  color: #fff;
+  padding: 0 2px; }
+
+.editorForm .editType option {
+  height: 24px; }
+
+.editorForm .editor {
+  width: 678px;
+  padding: 10px;
+  min-height: 500px;
+  line-height: 1.83em;
+  border: 1px solid #1AAFD0;
+  outline: 0px;
+  margin-top: 12px;
+  resize: none; }
+
+.editorForm .editorHandler {
+  margin: 12px 0 0 200px; }
+
+.editorForm .preview {
+  color: #2B63F9;
+  margin-left: 40px; }

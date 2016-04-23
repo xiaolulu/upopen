@@ -1,0 +1,84 @@
+<% include ../../common/header.ejs %>
+<div class="main" id="blogBox">
+	<section>	
+		<div class="info clearfix">
+			<span class="title">cookie</span>
+			<a class="type" href="/blog/list?kind=http">http</a>
+			<img class="head" src="/public/imgs/head.png" width="42" />
+		</div>
+		<div class="tool">
+			<!--span class="toolItem view">Views: 6</span>
+			<span class="toolItem talk">Comments: 0</span-->
+			<span class="toolItem date">Date: 2015-12-25</span>
+		</div>
+		<div class="content clearfix markdown"><h3>一、作用：</h3>
+
+<p>Cookie主要是由服务器生成的，发送给浏览器，保存在某个目录下的.txt文件，下次请求同一网站时，request.Header会带上该cookie给服务器，服务器据此信息记录该客户端，判断其权限信息等，最典型的是判断是否登录 及 用户操作统计</p>
+
+<p>在程序中，有会话的概念，从用户的维度划分，每个用户即一个会话，该用户只有访问、编辑属于自己的信息，购买的商品不能放到别人的购物车。而http是无状态的，cookies起到记录客户端状态的作用</p>
+
+<p>不同的服务器写入时，默认名称是不同的，</p>
+
+<p>jsp写入时，cookies名为jsessionid</p>
+
+<p>因为每次http请求都会带上cookie，cookie内数据过大时，会影响速度</p>
+
+<h3>二、查看</h3>
+
+<p>对于开发者，可以通过chrome浏览器，的 Inspect element -- Resources -- Cookies 查看，并做删除操作</p>
+
+<p>也可以通过可以用 document.cookie</p>
+
+<p>保存英文使用ascii字符，一个英文内存占2个字节</p>
+
+<p>保存中文使用unicode字符，一个中文占4个字符</p>
+
+<h3>三、属性</h3>
+
+<p><code>javascript
+{
+    name: Value,
+    expires: Date,                    //过期时间，当设置为0 或不设置时，关闭浏览器即清除cookie，设置为MAX_VALUE时将永久有效
+    path: Path,                         //不同path的cookie，也不能读取，根目录的cookie是可以共享的
+    domain: Domain_name   //设置cookie所属域名，不可跨域名，http不会带上不属于本站的cookie，二级域名也不行。
+    http: Boolean                    //是否使用于http，服务器设置此项，则本地不能读取，具有一定安全性。
+    secure: Boolean               //是否加密，https 和 ssl 中使用
+}
+</code></p>
+
+<p>当设置了时间，cookie会保存.txt文件中，不设置则保存在内存中，关闭浏览器即失效</p>
+
+<h3>四、操作</h3>
+
+<p>服务端：nodejs为例</p>
+
+<p>读取：cookie服务器传递时放在 request.headers.cookie 里，多个cookie是用 ; 连接的字符串</p>
+
+<p>设置：response.setHeader(&quot;Set-Cookie&quot;,cookies );</p>
+
+<p>要删除一个cookie，只要把其 expire 设置为0即可</p>
+
+<p>也不能修改cookie，要修改，只能新建一个同名的cookie，做覆盖</p>
+
+<p>页面端：</p>
+
+<p>建议使用jquery.cookies</p>
+
+<p>jquery.cookies.set( name, value, options );</p>
+
+<p>jquery.cookies.get( name )</p></div>
+	</section>
+	<div class="comments">
+		<div class="commentWrap" id="commentWrap">
+			
+		</div>
+		<form class="commentForm" id="commentForm">
+			<input type="text" placeHolder="you name" id="commentUser" maxLength="30" class="commentUser" /><br />
+			<textarea class="commentContent" id="commentContent" rows="6" maxLength="1000" placeHolder="your comment for this blog within 1000 words"></textarea><br />
+			<button type="submit" id="commentBtn" class="btn">SAVE COMMENT</button><br /><br />
+		</form>
+	</div>
+</div>
+
+<% include ../../common/slide.ejs %>
+<% include ../../common/footer.ejs %>

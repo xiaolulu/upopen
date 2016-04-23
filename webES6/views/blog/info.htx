@@ -1,0 +1,29 @@
+<% include ../../common/header.ejs %>
+<div class="main" id="blogBox">
+	<section>	
+		<div class="info clearfix">
+			<span class="title">{title}</span>
+			<a class="type" href="/blog/list?kind={kind}">{kind}</a>
+			<img class="head" src="/public/imgs/head.png" width="42" />
+		</div>
+		<div class="tool">
+			<!--span class="toolItem view">Views: {view}</span>
+			<span class="toolItem talk">Comments: {comment}</span-->
+			<span class="toolItem date">Date: {date}</span>
+		</div>
+		<div class="content clearfix markdown">{content}</div>
+	</section>
+	<div class="comments">
+		<div class="commentWrap" id="commentWrap">
+			
+		</div>
+		<form class="commentForm" id="commentForm">
+			<input type="text" placeHolder="you name" id="commentUser" maxLength="30" class="commentUser" /><br />
+			<textarea class="commentContent" id="commentContent" rows="6" maxLength="1000" placeHolder="your comment for this blog within 1000 words"></textarea><br />
+			<button type="submit" id="commentBtn" class="btn">SAVE COMMENT</button><br /><br />
+		</form>
+	</div>
+</div>
+
+<% include ../../common/slide.ejs %>
+<% include ../../common/footer.ejs %>

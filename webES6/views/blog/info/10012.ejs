@@ -1,0 +1,53 @@
+<% include ../../common/header.ejs %>
+<div class="main" id="blogBox">
+	<section>	
+		<div class="info clearfix">
+			<span class="title">Ubuntu Soft</span>
+			<a class="type" href="/blog/list?kind=ubuntu">ubuntu</a>
+			<img class="head" src="/public/imgs/head.png" width="42" />
+		</div>
+		<div class="tool">
+			<!--span class="toolItem view">Views: 2</span>
+			<span class="toolItem talk">Comments: 0</span-->
+			<span class="toolItem date">Date: 2015-12-25</span>
+		</div>
+		<div class="content clearfix markdown"><h4>一、QQ安装：</h4>
+
+<h5>下载</h5>
+
+<p>地址：http://yun.baidu.com/share/link?uk=2147599678&amp;shareid=3052711415&amp;qrfrom=1&amp;qrtype=</p>
+
+<p>压缩包内有</p>
+
+<p>...fonts-wqy-microhei<em>0.2.0-beta-2</em>all.deb</p>
+
+<p>...ttf-wqy-microhei<em>0.2.0-beta-2</em>all.deb</p>
+
+<p>...wine-qqintl<em>0.1.3-2</em>i386.deb</p>
+
+<h5>安装：</h5>
+
+<pre><code>1、sudo dpkg -i fonts-wqy-microhei_0.2.0-beta-2_all.deb
+
+2、sudo dpkg -i ttf-wqy-microhei_0.2.0-beta-2_all.deb
+
+3、sudo dpkg -i wine-qqintl_0.1.3-2_i386.deb
+
+注：执行3时，有时因缺少依赖而报错，可执行 sudo apt-get install -f 安装依赖后再执行 3</code></pre>
+
+<p>安装后启动图标有时不会显示在桌面上，可以通过搜索QQ程序启动。</p></div>
+	</section>
+	<div class="comments">
+		<div class="commentWrap" id="commentWrap">
+			
+		</div>
+		<form class="commentForm" id="commentForm">
+			<input type="text" placeHolder="you name" id="commentUser" maxLength="30" class="commentUser" /><br />
+			<textarea class="commentContent" id="commentContent" rows="6" maxLength="1000" placeHolder="your comment for this blog within 1000 words"></textarea><br />
+			<button type="submit" id="commentBtn" class="btn">SAVE COMMENT</button><br /><br />
+		</form>
+	</div>
+</div>
+
+<% include ../../common/slide.ejs %>
+<% include ../../common/footer.ejs %>

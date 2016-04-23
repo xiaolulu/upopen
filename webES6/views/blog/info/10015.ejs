@@ -1,0 +1,91 @@
+<% include ../../common/header.ejs %>
+<div class="main" id="blogBox">
+	<section>	
+		<div class="info clearfix">
+			<span class="title">linux下常用VI命令</span>
+			<a class="type" href="/blog/list?kind=ubuntu">ubuntu</a>
+			<img class="head" src="/public/imgs/head.png" width="42" />
+		</div>
+		<div class="tool">
+			<!--span class="toolItem view">Views: 6</span>
+			<span class="toolItem talk">Comments: 0</span-->
+			<span class="toolItem date">Date: 2015-12-25</span>
+		</div>
+		<div class="content clearfix markdown"><p>VI作为linux下最常用、方便的编辑器，有100+条的操作命令，但有些并不常用。非专业人员难以大量记住且容易混淆，这里罗列一些我目前常用的一些命令，足以完成日常操作。        </p>
+
+<p>打开：
+<code>javascript
+        vi filename                     //编辑文件，光标位于第一行
+        vi +n     filename             //编辑文件，光标位于第n行
+        vi + filename                 //编辑文件，光标位于最后一行
+        vi +/pattern filename    //编辑文件，光标在 pattern 所匹配的第一个位置
+        vi -r filename                 //如果上次编辑时崩溃了，该命令可以恢复
+        注：打开默认是指令模式，无法修改文本内容
+</code></p>
+
+<p>浏览：
+<code>javascript
+        上下左右键                 控制移动光标移动
+        ctrl + f                         //下翻一屏
+        ctrl + b                         //上翻一屏
+        ngg                              // 5gg    跳到第5行
+        :set nu                         //显示行号
+</code></p>
+
+<p>编辑：
+<code>javascript
+        i                                   // 光标前insert
+        I                                   //行首insert
+         a                                 //光标后 append
+        A                                 // 行未append
+        o                                 // 行下open新行
+        O                                 // 行上open新行
+        r                                   // 输入替换当前光标字母，只有效一次
+        R                                  // 输入替换当前光标字母，一直有效，直接esc 
+        s                                  // 删除当前光标字母，并进入输入模式
+        S                                  // 删除当前光标所在行，并进入输入模式
+        x                                  // 删除光标后一位
+        X                                  // 删除光标前一位
+        dd                              // 删除当前行
+        ctrl + u                         // 撤消当前输入模式下所有输入内容
+        注：大写由 shift + 小写，效果更高，如 shift + s == S
+</code></p>
+
+<p>搜索:
+<code>javascript
+        /pattern                     // 搜索 pattern
+        n                                // 搜索下移一个
+        shift+n                        // 搜索上移一个
+</code></p>
+
+<p>替换：
+<code>javascript
+        : s /css/cssa/             // 将css 替换成 cssa
+        :%s /css/cssa            //  将css 全部替换成 cssa
+</code></p>
+
+<p>保存退出：</p>
+
+<p><code>javascript
+        :w                             // 保存不退出
+        :q                             // 不保存退出，若有修改退出不成功
+        :x                             //保存修改并退出
+        :q!                            // 不保存修改直接退出
+</code></p>
+
+<p>注：VI下支持同shell终端同样的复制方式，ctrl + shift + c 复制，ctrl + shift + v   粘贴</p></div>
+	</section>
+	<div class="comments">
+		<div class="commentWrap" id="commentWrap">
+			
+		</div>
+		<form class="commentForm" id="commentForm">
+			<input type="text" placeHolder="you name" id="commentUser" maxLength="30" class="commentUser" /><br />
+			<textarea class="commentContent" id="commentContent" rows="6" maxLength="1000" placeHolder="your comment for this blog within 1000 words"></textarea><br />
+			<button type="submit" id="commentBtn" class="btn">SAVE COMMENT</button><br /><br />
+		</form>
+	</div>
+</div>
+
+<% include ../../common/slide.ejs %>
+<% include ../../common/footer.ejs %>

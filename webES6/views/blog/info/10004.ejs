@@ -1,0 +1,264 @@
+<% include ../../common/header.ejs %>
+<div class="main" id="blogBox">
+	<section>	
+		<div class="info clearfix">
+			<span class="title">NODEJS项目实践0.4 [domain,pm2,log4js,md5]</span>
+			<a class="type" href="/blog/list?kind=nodejs">nodejs</a>
+			<img class="head" src="/public/imgs/head.png" width="42" />
+		</div>
+		<div class="tool">
+			<!--span class="toolItem view">Views: 7</span>
+			<span class="toolItem talk">Comments: 0</span-->
+			<span class="toolItem date">Date: 2015-12-25</span>
+		</div>
+		<div class="content clearfix markdown"><h3>一、前言</h3>
+
+<p>⋅⋅⋅上节我们基于mongo数据存取的操作，实现了用户注册、登录、退出功能，并应用了初级的权限验证。本节将处理nodejs异常情况、加密、日志及进程守护。</p>
+
+<h5>git : https://github.com/xiaolulu/mynodejs.git</h5>
+
+<h3>二 、MD5</h3>
+
+<p>⋅⋅⋅密码作为用户登录唯一凭证，其安全性不言而喻，前面我们的密码操作存在两个问题</p>
+
+<p>⋅⋅⋅a、用户登录及注册都使用了明文密码</p>
+
+<p>⋅⋅⋅b、数据库保存了用户的明文密码</p>
+
+<p>⋅⋅⋅常规可以使用二次加密，即前台传递到后台的密码先加密一次，后台再加密一次后存入数据库。</p>
+
+<h4>1、客户端加密</h4>
+
+<p>⋅⋅⋅下载 md5.js 文件，用require包下。可以到我的git上下载，也是网上找的，加了require</p>
+
+<p>⋅⋅⋅该文件较稳定且与业务无关，我们放到 root/static/core/js内</p>
+
+<p>⋅⋅⋅在root/static/module/issue/register.js里引用，在password传输前对其加密</p>
+
+<p><code></code>`javascript
+require.config({
+	baseUrl: basePath,
+	paths: {
+		all: &#39;public/js/all&#39;,
+		md5: &#39;core/js/md5&#39;	//引用md5
+	}
+})</p>
+
+<p>define( [&#39;md5&#39;,&#39;all&#39;], function( md5 ){
+    $( &#39;#registerForm&#39; ).on( &#39;submit&#39;, function(){
+        var data = {
+            username: $(&#39;#username&#39;).val(),
+            password: md5.hex_md5( $(&#39;#password&#39;).val() ),	//对password加密
+            email: $(&#39;#email&#39;).val()<br/>        }
+	$.ajax
+	...
+    })
+});
+<code></code>`</p>
+
+<p>⋅⋅⋅此时通过mongo终端可以看到新注册的密码已经变成32的加密字段如</p>
+
+<p>⋅⋅⋅123456 → &#39;e10adc3949ba59abbe56e057f20f883e&#39;</p>
+
+<h4>2、服务器端加密</h4>
+
+<p>⋅⋅⋅在添加注册数据到数据库的时候，再加密一次</p>
+
+<p>⋅⋅⋅nodejs包装的加密模块为 crypto，通过package.json安装</p>
+
+<p>⋅⋅⋅对用户数据存取都在root/web/controls/user.js，我们对其修改</p>
+
+<p><code></code>`javascript
+var db = require( &#39;../db/sql&#39; ),
+crypto = require( &#39;crypto&#39; );		//引入  crypto 模块
+var md5 = function(data) { 	//定义加密函数</p>
+
+<pre><code>return crypto.createHash(&#39;md5&#39;).update(data).digest(&#39;hex&#39;).toLowerCase();  </code></pre>
+
+<p>} 
+function addUser( req, res ){
+    var data = req.body;
+	data.password = md5( data.password );	//对存入的密码加密
+    ...
+}</p>
+
+<p>function findUser( req, res ){
+    var data = req.body;
+	data.password = md5( data.password );	//对查询的密码加密
+    ...
+}
+...
+<code></code>`</p>
+
+<p>⋅⋅⋅此时我们再看数据库里的同样的密码，变化为另外一种32位的密文</p>
+
+<p>⋅⋅⋅如 123456 → &#39;14e1b600b1fd579f47433b88e8d85291&#39;</p>
+
+<p>⋅⋅⋅再执行一次注册 / 登录，功能是同样可用的，但密码已经是安全的了。</p>
+
+<p>⋅⋅⋅此时我们完成了加密，之所以二次加密是因为，客户端加密防止在向服务器传送的过程中被拦截，服务器再加密是防止内部出错。</p>
+
+<h3>三 、nodejs异常处理</h3>
+
+<p>⋅⋅⋅开发程序难免会出现代码异常，前台js情况还好些，通常只影响当前用户的当前页面，但服务器如果出现异常，则要严重的多，处理不慎会造成整个项目的崩溃，停止服务，所以后台的异常处理要非常全面。</p>
+
+<p>⋅⋅⋅js出提供了异常处理机制，就是我们常用的try{}catch(e){}，nodejs也可以使用</p>
+
+<h4>1、同步异常处理</h4>
+
+<p>⋅⋅⋅编辑 root/web/routes/index.js，app.use是所有请求的入口，对其做下包装即可，在第二步中展示</p>
+
+<h4>2、异步异常处理</h4>
+
+<p>⋅⋅⋅nodejs最主要的优势在于其非阻塞的IO机制，意味着其内有大量的异步回调，这里的错误是难以捕捉和处理的，也是try..catch所无法达到的，nodejs提供了domain方法，同样在 app.use里做处理</p>
+
+<p><code></code>`javascript
+…
+var domain 	= require( &#39;domain&#39; );	//引入domain
+var Domain = domain.create();</p>
+
+<p>Domain.on( &#39;error&#39;, function( e ){	//监听异步错误
+	console.log( &#39;error &#39; + e) 
+});
+…
+app.use( function( req, res, next){	
+		try{
+			if( privilege[ req.path ] &amp;&amp; req.path != &#39;/login&#39; &amp;&amp; !req.session.status ){
+                if( req.method == &#39;GET&#39; ){
+		            res.redirect(&#39;/login&#39;);
+		            } else {
+		                res.send( { code: 1001, msg: &#39;need you to log in&#39;})  <br/>		            }         <br/>		    } else {
+			Domain.run( function(){
+				next();	//包装异步处理，这样回调出错，也不会造成项目崩溃
+			});
+		    }
+		} catch( e ){
+			res.redirect( &#39;/&#39; );
+		}	</p>
+
+<pre><code>});</code></pre>
+
+<p><code></code>`</p>
+
+<h3>四、pm2</h3>
+
+<p>⋅⋅⋅在上一步我们做了异常处理，可以减少项目崩溃的机率，但其还是不够稳妥，下面我们使用进程守护模块。</p>
+
+<p>⋅⋅⋅pm2及forever模块是目前较常用的nodejs进程守护模块，前者更常用些、功能也更强大（提供负载）。其原理主要是pm2开启一个主进程，另行再开子进程运行nodejs项目，主进程监听子进程，若子进程崩溃，pm2会自行将其启动，并且也可以对一个项目启动多个子进程，pm2主进程做随机转发请求。</p>
+
+<h4>1、安装 npm install pm2 -g</h4>
+
+<p>⋅⋅⋅其类似于前面我们安装的node-dev，是用于启动项目的，所以要安装在全局</p>
+
+<h4>2、常用命令</h4>
+
+<p><code></code>`javascript
+	pm2 start app.js	//启动
+	pm2 ls			//显示已启动的项目进程，会显示项目id / name 负载等信息
+	pm2 start app.js -i max //自动依赖电脑内核数，尽量启动多的进程
+	pm2 reload all	//重新加载
+	pm2 restart [ app_name | id | all ]	//重启项目，用于改了nodejs代码时，其不具备node-dev功能
+	pm2 stop  [ app_name | id | all ]	//停止某进程
+	pm2 logs</p>
+
+<p><code></code>`</p>
+
+<h3>五、log4js</h3>
+
+<p>⋅⋅⋅后台项目日志是极其重要的，后端不是客户端 js那么明晰，错误可以随时debug，日志是很好的记录，其对所有数据的请求进行记录，也记录了出现危害项目的行为，如修改、删除数据操作。</p>
+
+<p>⋅⋅⋅我们使用log4js模块，通过package.json安装</p>
+
+<p>⋅⋅⋅在root/web下新建log文件夹存放日志文件</p>
+
+<p>⋅⋅⋅log4js还是需要一些简单的配置，前面使用md5及后面会到诸如ip获取等也需要一些简单的配置，我们将这些简单的不需要单独成一个文件的配置都放是一个文件里，新建 root/web/tool/gadget.js，添加代码如下</p>
+
+<p><code></code>`javascript
+var log4js = require( &#39;log4js&#39; );
+	//引入log4js</p>
+
+<p>var logConfig = {
+	//设置配置项
+	&quot;appenders&quot;:[
+		{&quot;type&quot;: &quot;console&quot;,&quot;category&quot;:&quot;console&quot;},
+		{
+			&quot;type&quot;: &quot;dateFile&quot;,
+			&quot;filename&quot;:&quot;./log/&quot;,
+	//目录
+			&quot;pattern&quot;:&quot;yyyyMMdd.log&quot;,
+	//命名规则，我们是按天，也可以设置为yyyyMMddhh.log，为按时
+			&quot;absolute&quot;:true,
+			&quot;alwaysIncludePattern&quot;:true,
+			&quot;category&quot;:&quot;logInfo&quot;
+		}
+	],
+	&quot;levels&quot;:{&quot;logInfo&quot;:&quot;DEBUG&quot;}
+}</p>
+
+<p>log4js.configure( logConfig );
+var logInfo = log4js.getLogger(&#39;logInfo&#39;);</p>
+
+<p>module.exports = {
+	logInfo: logInfo
+}
+<code></code>`</p>
+
+<p>⋅⋅⋅我们对所有的请求作记录，在root/web/routes/index.js，里的app.use处添加日志记录</p>
+
+<p><code></code>`javascript
+var gadget = require( &#39;../tool/gadget&#39; );
+….
+app.use( function( req, res, next){	
+		console.log( req.path );<br/>		gadget.logInfo.info( req.path );
+	//添加日志，记录所有请求路径
+		try{
+			if( privilege[ req.path ] &amp;&amp; req.path != &#39;/login&#39; &amp;&amp; !req.session.status ){
+				console.log( req.session.status );
+                if( req.method == &#39;GET&#39; ){
+		            res.redirect(&#39;/login&#39;);
+		            } else {
+		                res.send( { code: 1001, msg: &#39;need you to log in&#39;})  <br/>		            }         <br/>		    } else {	
+				Domain.run( function(){
+					 next();
+				});
+		    }
+		} catch( e ){
+			gadget.logInfo.error( req.path );
+	//添加日志，记录出错信息
+			res.redirect( &#39;/&#39; );
+		}	</p>
+
+<pre><code>})</code></pre>
+
+<p><code></code>`</p>
+
+<p>⋅⋅⋅项目启动后，可以看到root/web/log下自动新增了 20150723.log文档，具体文件名视当前日期而定。</p>
+
+<p>⋅⋅⋅访问我们的站点的任一个页面，日志文件中都会自动多出相应的记录。</p>
+
+<p>⋅⋅⋅实时查看文档Linux下可用 tail -f 20150723.log，终端其会自动刷新目录数据。</p>
+
+<p>⋅⋅⋅本页的 Domain.on( &#39;error&#39; )回调里也添加logInfo.error。还有DB的存取等所以有意义的数据往返及操作都可以记录下来</p>
+
+<h3>六、总结</h3>
+
+<p>⋅⋅⋅本节我们主要是对nodejs模块的应用，处理异常( domain)、加密了数据(md5)、设置进程守护(pm2) 并 做了日志记录（log4js），每一块只对基础配置使用做了介绍，后面再单独出一章详细nodejs常用模块</p>
+
+<p>⋅⋅⋅近来工作较忙，就先写到这里，下节演示nodejs分成前后台两部分接收页面请求及DB存取、git操作</p>
+
+<h3>全栈工程 - 技术新Q群：435485569</h3></div>
+	</section>
+	<div class="comments">
+		<div class="commentWrap" id="commentWrap">
+			
+		</div>
+		<form class="commentForm" id="commentForm">
+			<input type="text" placeHolder="you name" id="commentUser" maxLength="30" class="commentUser" /><br />
+			<textarea class="commentContent" id="commentContent" rows="6" maxLength="1000" placeHolder="your comment for this blog within 1000 words"></textarea><br />
+			<button type="submit" id="commentBtn" class="btn">SAVE COMMENT</button><br /><br />
+		</form>
+	</div>
+</div>
+
+<% include ../../common/slide.ejs %>
+<% include ../../common/footer.ejs %>
