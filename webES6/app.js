@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 
 const app = express();
 const router = express.Router();
-const port = '3000';
+const port = '3001';
 
 app
 .set( 'views', `${__dirname}/views`)
