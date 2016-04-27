@@ -19,6 +19,16 @@ export default [
 		}
 	},
 	{
+		path: '/mis',
+		method: 'get',
+		render: 'blog/mis',
+		premission: 0,
+		config: {
+			title: '文章管理',
+			assets: '/module/blog/mis/mis'
+		}
+	},
+	{
 		path: '/fetchEdit',
 		method: 'get',
 		premission: 0,
@@ -41,7 +51,7 @@ export default [
 		method: 'post',
 		premission: 0,
 		request: ( req, res ) => {
-			Blog.add( req, res, '/blog/create' );
+			Blog.add( req, res, '/blog/save' );
 		}
 	},
 	{
@@ -60,6 +70,14 @@ export default [
 		config: {
 			title: '文章详情',
 			assets: '/module/blog/info/info'
+		}
+	},
+	{
+		path: '/remove',
+		method: 'delete',
+		premission: 0,
+		request: ( req, res ) => {
+			Blog.remove( req, res, '/blog/remove' );
 		}
 	},
 	{

@@ -11,7 +11,8 @@ module.exports =  {
 		entry: {
 			'/module/blog/list/list': `${src}/module/blog/list/list`,
 			'/module/blog/edit/edit': `${src}/module/blog/edit/edit`,
-			'/module/blog/info/info': `${src}/module/blog/info/info`
+			'/module/blog/info/info': `${src}/module/blog/info/info`,
+			'/module/blog/mis/mis': `${src}/module/blog/mis/mis`
 		},
 		output: {
 			path: dest,

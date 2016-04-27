@@ -10,17 +10,10 @@ const htx2ejs = function( data, doc ){
 }
 
 export default {
-	fetchList( req, res, path ){
+	fetch( req, res, path ){
 		Request( req, res, path, ( body ) => {
 				body = JSON.parse( body );
 				body.data.map( item => item.content = markdown.toHTML( item.content ));
-				res.send( body );
-			} );
-	},
-	
-	fetchEdit( req, res, path ){
-		Request( req, res, path, ( body ) => {
-				body = JSON.parse( body );
 				res.send( body );
 			} );
 	},
@@ -41,16 +34,6 @@ export default {
 		Request( req, res, path, ( body ) => {
 				res.send( body );
 			} )
-	},
-	
-	rebuild( req, res, path ){
-		Request( req, res, path, ( body ) => {
-			body = JSON.parse( body );
-			fs.readFile( `views/blog/info.htx`, 'utf8', function( err, doc ){
-				body.data.map( item => htx2ejs( item, doc ) );
-			})
-			res.send( `rebuild success, items=${body.data.length}` );
-		} );
 	}
 }
 

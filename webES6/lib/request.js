@@ -1,7 +1,7 @@
 import request from 'request';
 import fetch from 'node-fetch';
 import {stringify} from 'querystring';
-import config from '../config/server';
+import { server as config } from '../config/config';
 
 const Request = ( req, res, path, cb ) => {
 	let query = '';
@@ -10,9 +10,11 @@ const Request = ( req, res, path, cb ) => {
 	}
 	
 	const option = {
-		url: `${config.host}${path}${query}`,
+		url: `${config.host}:${config.port}${path}${query}`,
 		form: req.body
 	}
+	
+	console.log( `${config.host}:${config.port}${path}${query}` );
 	
 	request[ req.method.toLowerCase() ]( option, ( err, response, body ) => {
 		cb( body )
@@ -20,6 +22,4 @@ const Request = ( req, res, path, cb ) => {
 
 }
 
-export {
-	Request
-}
+export default Request;

@@ -1,3 +1,5 @@
+require( '../../../public/css/markdown.scss' );
+var hint = require( '../../../widget/hint/hint' ).hint;
 var blogId;
 
 
@@ -27,13 +29,13 @@ var commentUserRule = [
 		}
 	];
 $( '#commentForm' ).on( 'submit', function(){
-	if( Validate( commentUser, commentUserRule ) !== true || Validate( commentContent, commentContentRule ) !== true ){
+	/*if( Validate( commentUser, commentUserRule ) !== true || Validate( commentContent, commentContentRule ) !== true ){
 		return false;
-	}
+	}*/
 	commentBtn.get(0).setAttribute( 'disabled', true );
 	var data = {
-		belong: blogId,
-		username: commentUser.val(),
+		blogId: blogId,
+		owner: commentUser.val(),
 		content: commentContent.val()
 	}
 	$.ajax({
@@ -46,7 +48,8 @@ $( '#commentForm' ).on( 'submit', function(){
 			if( ret.code == 0 ){
 				//hint.show( 'Comment save success!' );
 				data.date = new Date;
-				$( '#commentWrap' ).append( renderCommentItem( 0, data ));
+				hint.show('保存成功')
+				$( '#commentWrap' ).append( renderCommentItem( 0, ret.data ));
 				setTimeout( function(){
 					commentBtn.get(0).removeAttribute( 'disabled' );	
 				}, 1000 );
@@ -56,13 +59,13 @@ $( '#commentForm' ).on( 'submit', function(){
 	return false;
 });
 
-var commentTmp = ['<div><a href="{href}" class="user">{username}</a><span class="date">{date}</span></div><div class="content markdown">{content}</div>'].join('');
-function fetchComment( belong ){
+var commentTmp = ['<div><a href="javascript:void(0)" class="user">{owner}</a><span class="date">{date}</span></div><div class="content markdown">{content}</div>'].join('');
+function fetchComment( blogId ){
 	$.ajax({
-		url: '/comment/fetchList',
+		url: '/comment/fetch',
 		type: 'get',
 		dataType: 'json',
-		data: { belong: belong },
+		data: { blogId: blogId },
 		success: function( ret ){
 			if( ret.code == 0 ){
 				renderComment( ret.data );				
@@ -85,6 +88,7 @@ function renderCommentItem( key, item ){
 	} else {
 		item.href = '/user/info?id=' + item.OWNER;
 	}
+	item.date = item.date.slice(0,19).replace('T',' ');
 	var el = $( '<div>' ).addClass( 'commentItem' ).append( commentTmp.replace( /\{(.*?)\}/g, function( $1, $2 ){
 		return item[ $2 ];
 	}));
@@ -130,5 +134,5 @@ function fetchBlog( id ){
 !function(){
 	blogId = location.search.slice(1).split('=')[1]
 	//fetchBlog( blogId)
-	//fetchComment( blogId );
+	fetchComment( blogId );
 }();

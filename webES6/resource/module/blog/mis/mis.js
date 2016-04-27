@@ -1,16 +1,17 @@
 
-var blogTmp = ['<div class="info clearfix">',
-						'<a class="title" href="/blog/info?id={_id}">{title}</a>',
-						'<a class="type" href="/blog/list?kind={kind}">{kind}</a>',
-						'<a href="javascript:void(0)"><img class="head" src="/public/imgs/head.png" width="42" /></a>',///user/info?id={owner}
+var blogTmp = ['<div class="info">',
+						'<a href="/blog/info?id={_id}">{title}</a>',
+						'<a class="kind" href="/blog/kind?kind={kind}">{kind}</a>',
 					'</div>',
-					'<div class="content clearfix markdown">{summary}</div>',
-					'<div class="more clearfix">......<br /><a class="viewAll" href="/blog/info?id={_id}">&lt;view all&gt;</a></div>',
-					'<div class="tool">',
-						//'<span class="toolItem view">Views: {view}</span>',
-						'<span class="toolItem talk">Comments: <a href="/blog/info?id={_id}#comments">{comment}</a></span>',
-						'<span class="toolItem date">Date: {date}</span>',
+					'<div class="handle">',
+						'<a href="javascript:void(0)" class="delete">delete</a>',
+						'<a href="/blog/edit?id={_id}">edit</a>',
 					'</div>'].join('');
+					//'<div class="tool">',
+						//'<span>views: {view}</span>',
+						//'<span>comments: {comment}</span>',
+						//'<span>date: {date}</span>',
+					//'</div>'].join('');
 
 function fetchBlog( kind, start, limit ){
 	var data = kind ? {kind: kind} : {};
@@ -18,7 +19,7 @@ function fetchBlog( kind, start, limit ){
 	//data.start = start;
 	//data.limit = limit;
 	$.ajax({
-		url: '/blog/fetch',
+		url: '/blog/fetchEdit',
 		type: 'get',
 		dataType: 'json',
 		data: data,
@@ -48,7 +49,28 @@ function render( item ){
 	var el = blogTmp.replace( /\{(.*?)\}/g, function( $1, $2 ){
 		return item[ $2 ];
 	});
-	return $( '<section>' ).append( el );
+	el = $( el );
+	el.find( '.delete' ).on( 'click', function(){
+		blogRemove( item._id );
+	})
+	return $( '<div>' ).addClass('blogItem').append( el );
+}
+
+function blogRemove( id ){
+	var data = {id: id };
+	$.ajax({
+		url: '/blog/remove',
+		type: 'delete',
+		dataType: 'json',
+		data: data,
+		success: function( ret ){
+			if( ret.code == 0 ){
+				
+			} else {
+
+			}
+		}
+	})
 }
 
 var loading = false,

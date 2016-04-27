@@ -1,3 +1,4 @@
+var hint = require( '../../../widget/hint/hint' ).hint;
 
 var title = $( '#title' ),
 	editor = $( '#editor' ),
@@ -13,7 +14,7 @@ $( '#editorForm' ).on( 'submit', function(){
 			tags: type.val()
 		}
 		url = '/blog/create';
-	if( _id ){
+	if( _id = location.search.slice(1).split('=')[1] ){
 		data.id = _id;
 		url = '/blog/update'
 	}
@@ -26,13 +27,11 @@ $( '#editorForm' ).on( 'submit', function(){
 		success: function( ret ){
 			if( ret.code == 0 ){
 				editorBtn.attr( 'disabled', false );
-				return;
 				hint.show( '保存成功' );
 				setTimeout( function(){
-					window.location.href = window.location.protocol + '//' + window.location.host + '/user/self';
+					window.location.href = '/blog/mis';
 				}, 1000 )
 			}
-			console.log( ret );
 		}
 	});
 	return false;
@@ -57,6 +56,7 @@ function fetchBlog( id ){
 
 !function(){
 	if( location.search ){
-		fetchBlog( location.search.slice(1).split('=')[1] );
+		_id = location.search.slice(1).split('=')[1];
+		fetchBlog( _id );
 	}
 }();
