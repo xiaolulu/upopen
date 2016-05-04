@@ -8,7 +8,10 @@ const mongodb = {
 	name: 'upDB'
 }
 
+const logPath = '/Users/qjdchina/Documents/work/upopen/upopen/log';
+
 export {
 	self,
-	mongodb
+	mongodb,
+	logPath
 }

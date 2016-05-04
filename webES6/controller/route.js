@@ -1,6 +1,7 @@
 import blog from './blog';
 import comment from './comment';
 import {site} from '../config/config';
+import {logFile} from '../lib/loger';
 //import gen from '../lib/utils';
 
 //gen();
@@ -12,6 +13,11 @@ const Routes = {
 }
 
 const Router = ( router ) => {
+	
+	router.use((req, res, next) => {
+		logFile.info(`${req.method}==${req.path}`);
+		next();
+	})
 	
 	router.get( '/', ( req, res, next ) => {
 		res.redirect( '/blog/list' );

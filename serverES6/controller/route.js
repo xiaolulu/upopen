@@ -1,5 +1,6 @@
 import blog from './blog';
 import comment from './comment';
+import {logFile} from '../lib/loger';
 
 const Routes = {
 	blog,
@@ -10,6 +11,7 @@ const Router = ( router ) => {
 	
 	router.use(( req, res, next ) => {
 		console.log( `${req.method}===${req.path}`);
+		logFile.info( `${req.method}===${req.path}` );
 		next();
 	});
 	
