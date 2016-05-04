@@ -1,6 +1,6 @@
 
 var blogTmp = ['<div class="info">',
-						'<a href="/blog/info?id={_id}">{title}</a>',
+						'<a href="/blog/preview?id={_id}">{title}</a>',
 						'<a class="kind" href="/blog/kind?kind={kind}">{kind}</a>',
 					'</div>',
 					'<div class="handle">',

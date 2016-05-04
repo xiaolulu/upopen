@@ -44,239 +44,46 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__( 7 );
-	var hint = __webpack_require__( 1 ).hint;
-	var blogId;
-
-
-	/***************
-	comment
-	***************/
-	var commentUser = $( '#commentUser' ),
-		commentContent = $( '#commentContent' ),
-		commentBtn = $( '#commentBtn' );
-
-	var commentUserRule = [
-			{
-				'required': 'username can not be empty',
-				'max': [30]
-			},
-			function( prop ){
-				prop && hint.show( prop );
-			}
-		],
-		commentContentRule = [
-			{
-				'required': 'content can not be empty',
-				'max': [1000]
-			},
-			function( prop ){
-				prop && hint.show( prop );
-			}
-		];
-	$( '#commentForm' ).on( 'submit', function(){
-		/*if( Validate( commentUser, commentUserRule ) !== true || Validate( commentContent, commentContentRule ) !== true ){
-			return false;
-		}*/
-		commentBtn.get(0).setAttribute( 'disabled', true );
-		var data = {
-			blogId: blogId,
-			owner: commentUser.val(),
-			content: commentContent.val()
-		}
-		$.ajax({
-			url: '/comment/create',
-			type: 'post',
-			dataType: 'json',
-			data: data,
-			success: function( ret ){
-				console.log( ret );
-				if( ret.code == 0 ){
-					//hint.show( 'Comment save success!' );
-					data.date = new Date;
-					hint.show('保存成功')
-					$( '#commentWrap' ).append( renderCommentItem( 0, ret.data ));
-					setTimeout( function(){
-						commentBtn.get(0).removeAttribute( 'disabled' );	
-					}, 1000 );
-				}
-			}
-		});
-		return false;
-	});
-
-	var commentTmp = ['<div><a href="javascript:void(0)" class="user">{owner}</a><span class="date">{date}</span></div><div class="content markdown">{content}</div>'].join('');
-	function fetchComment( blogId ){
-		$.ajax({
-			url: '/comment/fetch',
-			type: 'get',
-			dataType: 'json',
-			data: { blogId: blogId },
-			success: function( ret ){
-				if( ret.code == 0 ){
-					renderComment( ret.data );				
-				}
-			}
-		});
-	}
-
-	function renderComment( items ){
-		var els = [];
-		$.each( items, function( key, item ){
-			els.push( renderCommentItem( key, item ) );
-		});
-		$( '#commentWrap' ).append( els );
-	}
-
-	function renderCommentItem( key, item ){
-		if( item.OWNER == 'visitor' ){
-			item.href =  'javascript:void(0)'
-		} else {
-			item.href = '/user/info?id=' + item.OWNER;
-		}
-		item.date = item.date.slice(0,19).replace('T',' ');
-		var el = $( '<div>' ).addClass( 'commentItem' ).append( commentTmp.replace( /\{(.*?)\}/g, function( $1, $2 ){
-			return item[ $2 ];
-		}));
-		return el;
-	}
-
-	var blogTmp = ['<section>',	
-			'<div class="info clearfix">',
-				'<span class="title">{title}</span>',
-				'<a class="type" href="/blog/list?kind={kind}">{kind}</a>',
-				'<img class="head" src="/public/imgs/head.png" width="42" />',
-			'</div>',
-			'<div class="tool">',
-				'<span class="toolItem view">Views: {view}</span>',
-				'<span class="toolItem talk">Comments: {comment}</span>',
-				'<span class="toolItem date">Date: {date}</span>',
-			'</div>',
-			'<div class="content clearfix markdown">{content}</div>',
-		'</section>'].join('');
+	__webpack_require__( 7 )
+	var title = $( '#title' ),
+		date = $( '#date' ),
+		summary = $( '#summary' ),
+		content = $( '#content' ),
+		kind = $( '#kind' ),
+		editorBtn = $( '#editorBtn' ),
+		_id = '';
 
 	function fetchBlog( id ){
-		var data = { id: id };
 		$.ajax({
-			url: '/blog/fetchList',
+			url: '/blog/fetch',
 			type: 'get',
 			dataType: 'json',
-			data: data,
+			data: { id: id },
 			success: function( ret ){
 				if( ret.code == 0 ){
-					
-					var item = ret.data[0];
-					$( '#blogBox' ).prepend( blogTmp.replace( /\{(.*?)\}/g, function( $1, $2 ){
-						return item[ $2 ];
-					}));
-					//logo3d(0);
-				} else {
-
+					title.html( ret.data[0].title );
+					_id = ret.data[0].id;
+					date.html( ret.data[0].date );
+					kind.html( ret.data[0].kind );
+					content.html( ret.data[0].content );
+					summary.html( ret.data[0].summary );
 				}
+				console.log( ret );
 			}
-		})
+		});
 	}
 
 	!function(){
-		blogId = location.search.slice(1).split('=')[1]
-		//fetchBlog( blogId)
-		fetchComment( blogId );
+		if( location.search ){
+			_id = location.search.slice(1).split('=')[1];
+			fetchBlog( _id );
+		}
 	}();
 
 /***/ },
-/* 1 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__( 2 );
-	function Hint( config ){
-		this.config = config || {};
-		this.init();
-	}
-
-	Hint.prototype = {
-		defaults: {
-			content: '操作成功'
-		},
-		
-		init: function(){
-			this.render();
-		},
-		
-		render: function(){
-			this.el = $( '<div>' ).addClass( 'Hint' );
-			$('body').append( this.el );
-			return this;
-		},
-		
-		setValue: function( txt ){
-			this.el.html( txt );
-			return this;
-		},
-		
-		show: function( txt ){
-			var me = this;
-			this.setValue( txt );
-			this.el.removeClass('Hintdown').addClass('Hintup');
-			setTimeout(function(){
-				me.el.css('bottom',0);
-				me.hide();
-			},3000)
-		
-		},
-		
-		hide: function(){
-			this.el.addClass('Hintdown').removeClass('Hintup');
-		}
-	}
-
-	var hint = new Hint();
-
-	module.exports = {
-		hint: hint,
-		Hint: Hint
-	}
-
-/***/ },
-/* 2 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(3);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(5)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/sass-loader/index.js!./hint.scss", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/sass-loader/index.js!./hint.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(4)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".Hint {\n  background: #1C9E22;\n  position: fixed;\n  right: 0;\n  bottom: -35px;\n  z-index: 1000;\n  height: 32px;\n  line-height: 32px;\n  color: #fff;\n  text-align: center;\n  min-width: 200px;\n  padding: 0 20px;\n  border: 3px solid #fff;\n  border-bottom: none; }\n\n.Hintdown {\n  -webkit-prespective: 300;\n  -webkit-transform-style: preserve-3d;\n  -webkit-animation-name: back-y-spin;\n  -webkit-animation-duration: .5s;\n  -webkit-animation-iteration-count: 1;\n  -webkit-animation-timing-function: ease-out;\n  -webkit-animation-name: Hintdown;\n  -webkit-animation-delay: .1s;\n  -webkit-animation-fill-mode: forwards; }\n\n@-webkit-keyframes Hintdown {\n  0% {\n    bottom: 0px; }\n  100% {\n    bottom: -35px; } }\n\n.Hintup {\n  -webkit-prespective: 300;\n  -webkit-transform-style: preserve-3d;\n  -webkit-animation-name: back-y-spin;\n  -webkit-animation-duration: .5s;\n  -webkit-animation-iteration-count: 1;\n  -webkit-animation-timing-function: ease-out;\n  -webkit-animation-name: Hintup;\n  -webkit-animation-fill-mode: forwards; }\n\n@-webkit-keyframes Hintup {\n  0% {\n    bottom: -35px; }\n  100% {\n    bottom: 0; } }\n", ""]);
-
-	// exports
-
-
-/***/ },
+/* 1 */,
+/* 2 */,
+/* 3 */,
 /* 4 */
 /***/ function(module, exports) {
 

@@ -1,6 +1,7 @@
 .markdown{
 	h1, h2, h3, h4, h5, h6 {
 		font-weight: bold;
+		line-height: 2em;
 	}
 	
 	h1 {
@@ -41,6 +42,10 @@
 	
 	p, blockquote, ul, ol, dl, li, table, pre {
 		margin: 15px 0;
+	}
+	
+	ul, ol{
+		margin: 15px 20px;
 	}
 	
 	a, a:visited {

@@ -73,6 +73,16 @@ export default [
 		}
 	},
 	{
+		path: '/preview',
+		method: 'get',
+		render: 'blog/preview',
+		premission: 0,
+		config: {
+			title: '文章详情',
+			assets: '/module/blog/preview/preview'
+		}
+	},
+	{
 		path: '/remove',
 		method: 'delete',
 		premission: 0,

@@ -1,5 +1,6 @@
 .markdown h1, .markdown h2, .markdown h3, .markdown h4, .markdown h5, .markdown h6 {
-  font-weight: bold; }
+  font-weight: bold;
+  line-height: 2em; }
 
 .markdown h1 {
   color: #000000;
@@ -32,6 +33,9 @@
 
 .markdown p, .markdown blockquote, .markdown ul, .markdown ol, .markdown dl, .markdown li, .markdown table, .markdown pre {
   margin: 15px 0; }
+
+.markdown ul, .markdown ol {
+  margin: 15px 20px; }
 
 .markdown a, .markdown a:visited {
   color: #4183C4;

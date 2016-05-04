@@ -1,15 +1,27 @@
 var hint = require( '../../../widget/hint/hint' ).hint;
+var btypes = require( '../../../public/js/btype' );
 
 var title = $( '#title' ),
-	editor = $( '#editor' ),
+	summary = $( '#summary' ),
+	content = $( '#content' ),
 	type = $( '#type' ),
 	editorBtn = $( '#editorBtn' ),
 	_id = '';
+	
+function renderType(btypes){
+	var ops = [];
+	$.each( btypes, function( index, item ){
+		ops.push( new Option( item.text, item.id ));
+	});
+	type.append( ops );
+}
+renderType( btypes );
 
 $( '#editorForm' ).on( 'submit', function(){
 	var data = {
 			title: title.val(),
-			content: editor.val(),
+			summary: summary.val(),
+			content: content.val(),
 			kind: type.val(),
 			tags: type.val()
 		}
@@ -28,6 +40,7 @@ $( '#editorForm' ).on( 'submit', function(){
 			if( ret.code == 0 ){
 				editorBtn.attr( 'disabled', false );
 				hint.show( '保存成功' );
+				return;
 				setTimeout( function(){
 					window.location.href = '/blog/mis';
 				}, 1000 )
@@ -47,7 +60,9 @@ function fetchBlog( id ){
 			if( ret.code == 0 ){
 				title.val( ret.data[0].title );
 				_id = ret.data[0].id;
-				editor.val( ret.data[0].content );
+				content.val( ret.data[0].content );
+				summary.val( ret.data[0].summary );
+				
 			}
 			console.log( ret );
 		}

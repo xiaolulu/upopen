@@ -1,6 +1,9 @@
 import blog from './blog';
 import comment from './comment';
 import {site} from '../config/config';
+//import gen from '../lib/utils';
+
+//gen();
 
 
 const Routes = {

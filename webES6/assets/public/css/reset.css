@@ -80,10 +80,6 @@ tt {
 /*
 	TODO Figure out where this list-style rule is best set. Hedger has a request to investigate.
 */
-ol,
-ul {
-  list-style: none; }
-
 caption,
 th {
   text-align: left; }

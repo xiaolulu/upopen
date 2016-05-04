@@ -12,6 +12,7 @@ module.exports =  {
 			'/module/blog/list/list': `${src}/module/blog/list/list`,
 			'/module/blog/edit/edit': `${src}/module/blog/edit/edit`,
 			'/module/blog/info/info': `${src}/module/blog/info/info`,
+			'/module/blog/preview/preview': `${src}/module/blog/preview/preview`,
 			'/module/blog/mis/mis': `${src}/module/blog/mis/mis`
 		},
 		output: {
