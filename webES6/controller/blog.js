@@ -63,6 +63,14 @@ export default [
 		}
 	},
 	{
+		path: '/updateViewNum',
+		method: 'get',
+		premission: 0,
+		request: ( req, res ) => {
+			Blog.updateViewNum( req, res, '/blog/updateViewNum' );
+		}
+	},
+	{
 		path: '/info',
 		method: 'get',
 		render: ( id ) => { return `blog/info/${id}` },

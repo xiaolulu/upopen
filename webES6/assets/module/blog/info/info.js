@@ -177,9 +177,27 @@
 		})
 	}
 
+	function updateBlogView( id ){
+		var data = { id: id };
+		$.ajax({
+			url: '/blog/updateViewNum',
+			type: 'get',
+			dataType: 'json',
+			data: data,
+			success: function( ret ){
+				if( ret.code == 0 ){
+					//logo3d(0);
+				} else {
+
+				}
+			}
+		})
+	}
+
 	!function(){
 		blogId = location.search.slice(1).split('=')[1]
 		//fetchBlog( blogId)
+		updateBlogView( blogId )
 		fetchComment( blogId );
 	}();
 

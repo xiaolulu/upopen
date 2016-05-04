@@ -26,6 +26,14 @@ export default [
 		}
 	},
 	{
+		path: '/updateViewNum',
+		method: 'get',
+		premission: 0,
+		request: ( req, res ) => {
+			Blog.updateViewNum( req, res );
+		}
+	},
+	{
 		path: '/remove',
 		method: 'delete',
 		premission: 0,

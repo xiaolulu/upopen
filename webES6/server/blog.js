@@ -52,6 +52,12 @@ export default {
 			} )
 	},
 	
+	updateViewNum( req, res, path ){
+		Request( req, res, path, ( body ) => {
+				res.send( body );
+			} )
+	},
+	
 	remove( req, res, path ){
 		Request( req, res, path, ( body ) => {
 				res.send( body );

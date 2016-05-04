@@ -53,7 +53,7 @@
 						'<div class="content clearfix markdown">{summary}</div>',
 						'<div class="more clearfix">......<br /><a class="viewAll" href="/blog/info?id={_id}">&lt;view all&gt;</a></div>',
 						'<div class="tool">',
-							//'<span class="toolItem view">Views: {view}</span>',
+							'<span class="toolItem view">Views: {view}</span>',
 							'<span class="toolItem talk">Comments: <a href="/blog/info?id={_id}#comments">{comment}</a></span>',
 							'<span class="toolItem date">Date: {date}</span>',
 						'</div>'].join('');

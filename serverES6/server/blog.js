@@ -25,7 +25,12 @@ const blog = {
 	},
 	fetch( req, res ){
 		const data = req.query;
-		fetchdb( Blog, data, ( ret ) => { res.send( ret )} )	
+		fetchdb( Blog, data, ( ret ) => { 
+			res.send( ret );
+			Blog.update({'_id': data.blogId},{$inc:{view: 1}}, function(err){
+				console.log(err);
+			});
+		} )	
 		/*Blog.find( data ).populate( 'oid' ).exec( function( err, docs ){
 			console.log(`${err}--${docs}`);
 			if( err ){
@@ -41,10 +46,23 @@ const blog = {
 		delete data.id;
 		updatedb( Blog, id, data, ( ret ) => {res.send( ret )} )	
 	},
+	updateViewNum( req, res ){
+		const data = req.query
+		const id = data.id;
+		Blog.update({'_id': id },{$inc:{view: 1}}, ( err, docs ) => {
+			console.log(`${err} == ${docs}`)
+			if( err ){
+				res.send( {code: -1, data: [], msg: err } );
+			} else {
+				res.send( {code: 0, data: docs, msg: `update success`})
+			}
+		} );	
+	},
 	remove( req, res ){
 		const id = req.body.id;
 		removedb( Blog, id, ( ret ) => {res.send( ret )});
 	},
+	
 	Blog
 }
 
