@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":1,"key":{"_id":1},"name":"_id_","ns":"upDB.comment"},{"v":1,"key":{"id":1},"name":"id_1","ns":"upDB.comment","background":true}]}
