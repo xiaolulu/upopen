@@ -1,4 +1,5 @@
 import Blog from '../server/blog';
+import {Kind} from '../lib/code';
 export default [
 	{
 		path: '/list',
@@ -7,7 +8,8 @@ export default [
 		premission: 0,
 		config: {
 			title: '文章列表',
-			assets: '/module/blog/list/list'
+			assets: '/module/blog/list/list',
+			Kind
 		}
 	},
 	{
@@ -25,7 +27,8 @@ export default [
 		premission: 0,
 		config: {
 			title: '文章管理',
-			assets: '/module/blog/mis/mis'
+			assets: '/module/blog/mis/mis',
+			Kind
 		}
 	},
 	{
@@ -43,7 +46,8 @@ export default [
 		premission: 0,
 		config: {
 			title: '文章编辑',
-			assets: '/module/blog/edit/edit'
+			assets: '/module/blog/edit/edit',
+			Kind
 		}
 	},
 	{
@@ -77,7 +81,8 @@ export default [
 		premission: 0,
 		config: {
 			title: '文章详情',
-			assets: '/module/blog/info/info'
+			assets: '/module/blog/info/info',
+			Kind
 		}
 	},
 	{

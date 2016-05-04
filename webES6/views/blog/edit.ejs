@@ -3,6 +3,9 @@
 	<form id="editorForm" class="editorForm">
 		<input type="text" id="title" placeHolder="title: I will be here with you" class="title" maxLength="40" />
 		<select class="editType" id="type">
+		<% Kind.forEach( function( item ){ %>
+			<option value="<%= item.id %>"><%= item.text %></option>
+		<% }) %>
 		</select><br />	
 		<textarea class="editor" id="summary" rows="5" placeHolder="summary"></textarea><br />
 		<textarea class="editor" id="content" rows="16" placeHolder="content"></textarea><br />

@@ -5,14 +5,9 @@
 			<span class="description">&nbsp;Enjoy & Be good at </span>
 		</h2>
 		<ul class="item" id="blogType">
-			<li><a href="/blog/list?kind=nodejs">nodejs</a></li>
-			<li><a href="/blog/list?kind=ubuntu">ubuntu</a></li>
-			<li><a href="/blog/list?kind=sqlserver">sqlserver</a></li>
-			<li><a href="/blog/list?kind=safe">safe</a></li>
-			<li><a href="/blog/list?kind=http">http</a></li>
-			<li><a href="/blog/list?kind=client">client</a></li>
-			<li><a href="/blog/list?kind=nginx">nginx</a></li>
-			<li><a href="/blog/list?kind=git">git</a></li>
+			<% Kind.forEach( function( item ){ %>
+				<li><a href="/blog/list?kind=<%= item.id %>"><%= item.text %></a></li>
+			<% }) %>
 		</ul>
 	</div>
 

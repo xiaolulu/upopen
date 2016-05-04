@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__( 7 )
+	__webpack_require__( 6 )
 	var title = $( '#title' ),
 		date = $( '#date' ),
 		summary = $( '#summary' ),
@@ -392,14 +392,13 @@
 
 
 /***/ },
-/* 6 */,
-/* 7 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(8);
+	var content = __webpack_require__(7);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(5)(content, {});
@@ -419,7 +418,7 @@
 	}
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(4)();
@@ -427,7 +426,7 @@
 
 
 	// module
-	exports.push([module.id, ".markdown h1, .markdown h2, .markdown h3, .markdown h4, .markdown h5, .markdown h6 {\n  font-weight: bold;\n  line-height: 2em; }\n\n.markdown h1 {\n  color: #000000;\n  font-size: 28pt; }\n\n.markdown h2 {\n  border-bottom: 1px solid #CCCCCC;\n  color: #000000;\n  font-size: 24px; }\n\n.markdown h3 {\n  font-size: 18px; }\n\n.markdown h4 {\n  font-size: 16px; }\n\n.markdown h5 {\n  font-size: 14px; }\n\n.markdown h6 {\n  color: #777777;\n  background-color: inherit;\n  font-size: 14px; }\n\n.markdown hr {\n  height: 0.2em;\n  border: 0;\n  color: #CCCCCC;\n  background-color: #CCCCCC; }\n\n.markdown p, .markdown blockquote, .markdown ul, .markdown ol, .markdown dl, .markdown li, .markdown table, .markdown pre {\n  margin: 15px 0; }\n\n.markdown ul, .markdown ol {\n  margin: 15px 20px; }\n\n.markdown a, .markdown a:visited {\n  color: #4183C4;\n  background-color: inherit;\n  text-decoration: none; }\n\n.markdown img {\n  max-width: 100%; }\n\n.markdown #message {\n  border-radius: 6px;\n  border: 1px solid #ccc;\n  display: block;\n  width: 100%;\n  height: 60px;\n  margin: 6px 0px; }\n\n.markdown button, .markdown #ws {\n  font-size: 10pt;\n  padding: 4px 6px;\n  border-radius: 5px;\n  border: 1px solid #bbb;\n  background-color: #eee; }\n\n.markdown code, .markdown pre, .markdown #ws, .markdown #message {\n  font-family: Monaco;\n  font-size: 10pt;\n  border-radius: 3px;\n  background-color: #F8F8F8;\n  color: inherit; }\n\n.markdown code {\n  border: 1px solid #EAEAEA;\n  margin: 0 2px;\n  padding: 0 5px; }\n\n.markdown pre {\n  border: 1px solid #CCCCCC;\n  overflow: auto;\n  padding: 4px 8px; }\n\n.markdown pre > code {\n  border: 0;\n  margin: 0;\n  padding: 0; }\n\n.markdown #ws {\n  background-color: #f8f8f8; }\n\n.markdown .send {\n  color: #77bb77; }\n\n.markdown .server {\n  color: #7799bb; }\n\n.markdown .error {\n  color: #AA0000; }\n", ""]);
+	exports.push([module.id, ".markdown h1, .markdown h2, .markdown h3, .markdown h4, .markdown h5, .markdown h6 {\n  font-weight: normal;\n  line-height: 2em; }\n\n.markdown h1 {\n  color: #000000;\n  font-size: 28pt; }\n\n.markdown h2 {\n  border-bottom: 1px solid #CCCCCC;\n  color: #000000;\n  font-size: 24px; }\n\n.markdown h3 {\n  font-size: 18px; }\n\n.markdown h4 {\n  font-size: 16px; }\n\n.markdown h5 {\n  font-size: 14px; }\n\n.markdown h6 {\n  color: #777777;\n  background-color: inherit;\n  font-size: 14px; }\n\n.markdown hr {\n  height: 0.2em;\n  border: 0;\n  color: #CCCCCC;\n  background-color: #CCCCCC; }\n\n.markdown p, .markdown blockquote, .markdown ul, .markdown ol, .markdown dl, .markdown li, .markdown table, .markdown pre {\n  margin: 15px 0; }\n\n.markdown ul, .markdown ol {\n  margin: 15px 20px; }\n\n.markdown a, .markdown a:visited {\n  color: #4183C4;\n  background-color: inherit;\n  text-decoration: none; }\n\n.markdown img {\n  max-width: 100%; }\n\n.markdown #message {\n  border-radius: 6px;\n  border: 1px solid #ccc;\n  display: block;\n  width: 100%;\n  height: 60px;\n  margin: 6px 0px; }\n\n.markdown button, .markdown #ws {\n  font-size: 10pt;\n  padding: 4px 6px;\n  border-radius: 5px;\n  border: 1px solid #bbb;\n  background-color: #eee; }\n\n.markdown code, .markdown pre, .markdown #ws, .markdown #message {\n  font-family: Monaco;\n  font-size: 10pt;\n  border-radius: 3px;\n  background-color: #F8F8F8;\n  color: inherit; }\n\n.markdown code {\n  border: 1px solid #EAEAEA;\n  margin: 0 2px;\n  padding: 0 5px; }\n\n.markdown pre {\n  border: 1px solid #CCCCCC;\n  overflow: auto;\n  padding: 4px 8px; }\n\n.markdown pre > code {\n  border: 0;\n  margin: 0;\n  padding: 0; }\n\n.markdown #ws {\n  background-color: #f8f8f8; }\n\n.markdown .send {\n  color: #77bb77; }\n\n.markdown .server {\n  color: #7799bb; }\n\n.markdown .error {\n  color: #AA0000; }\n", ""]);
 
 	// exports
 

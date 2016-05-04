@@ -1,4 +1,3 @@
-import {mkdir} from 'fs';
 
 const server = {
 	host: 'http://127.0.0.1',

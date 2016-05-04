@@ -1,5 +1,4 @@
 var hint = require( '../../../widget/hint/hint' ).hint;
-var btypes = require( '../../../public/js/btype' );
 
 var title = $( '#title' ),
 	summary = $( '#summary' ),
@@ -7,15 +6,6 @@ var title = $( '#title' ),
 	type = $( '#type' ),
 	editorBtn = $( '#editorBtn' ),
 	_id = '';
-	
-function renderType(btypes){
-	var ops = [];
-	$.each( btypes, function( index, item ){
-		ops.push( new Option( item.text, item.id ));
-	});
-	type.append( ops );
-}
-renderType( btypes );
 
 $( '#editorForm' ).on( 'submit', function(){
 	var data = {
@@ -62,6 +52,7 @@ function fetchBlog( id ){
 				_id = ret.data[0].id;
 				content.val( ret.data[0].content );
 				summary.val( ret.data[0].summary );
+				type.val( ret.data[0].kind )
 				
 			}
 			console.log( ret );

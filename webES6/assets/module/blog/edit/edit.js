@@ -45,7 +45,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var hint = __webpack_require__( 1 ).hint;
-	var btypes = __webpack_require__( 6 );
 
 	var title = $( '#title' ),
 		summary = $( '#summary' ),
@@ -53,15 +52,6 @@
 		type = $( '#type' ),
 		editorBtn = $( '#editorBtn' ),
 		_id = '';
-		
-	function renderType(btypes){
-		var ops = [];
-		$.each( btypes, function( index, item ){
-			ops.push( new Option( item.text, item.id ));
-		});
-		type.append( ops );
-	}
-	renderType( btypes );
 
 	$( '#editorForm' ).on( 'submit', function(){
 		var data = {
@@ -108,6 +98,7 @@
 					_id = ret.data[0].id;
 					content.val( ret.data[0].content );
 					summary.val( ret.data[0].summary );
+					type.val( ret.data[0].kind )
 					
 				}
 				console.log( ret );
@@ -522,47 +513,6 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
-
-/***/ },
-/* 6 */
-/***/ function(module, exports) {
-
-	var btype = [
-		{
-			id: 'nodejs',
-			text: 'nodejs'
-		},
-		{
-			id: 'ubuntu',
-			text: 'ubuntu'
-		},
-		{
-			id: 'sql',
-			text: 'sql'
-		},
-		{
-			id: 'safe',
-			text: 'safe'
-		},
-		{
-			id: 'http',
-			text: 'http'
-		},
-		{
-			id: 'client',
-			text: 'client'
-		},
-		{
-			id: 'server',
-			text: 'server'
-		},
-		{
-			id: 'other',
-			text: 'other'
-		}
-	];
-
-	module.exports = btype;
 
 /***/ }
 /******/ ]);
