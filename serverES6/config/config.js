@@ -1,3 +1,5 @@
+import path from 'path';
+
 const self = {
 	port: 3003
 }
@@ -8,7 +10,7 @@ const mongodb = {
 	name: 'upDB'
 }
 
-const logPath = '/Users/qjdchina/Documents/work/upopen/upopen/log';
+const logPath = path.normalize(`${__dirname}/../../log`)
 
 export {
 	self,

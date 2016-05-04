@@ -1,3 +1,4 @@
+import path from 'path';
 
 const server = {
 	host: 'http://127.0.0.1',
@@ -8,7 +9,8 @@ const site = {
 	siteTitle: '优品开源'
 }
 
-const logPath = '/Users/qjdchina/Documents/work/upopen/upopen/log';
+
+const logPath = path.normalize(`${__dirname}/../../log`)
 
 export {
 	server,
