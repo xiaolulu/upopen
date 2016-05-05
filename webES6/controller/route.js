@@ -15,6 +15,9 @@ const Routes = {
 const Router = ( router ) => {
 	
 	router.use((req, res, next) => {
+		if( req.path === '/favicon.ico' ){
+			res.end();
+		}
 		logFile.info(`${req.method}==${req.path}`);
 		next();
 	})

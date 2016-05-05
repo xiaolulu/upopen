@@ -92,7 +92,8 @@ export default [
 		premission: 0,
 		config: {
 			title: '文章详情',
-			assets: '/module/blog/preview/preview'
+			assets: '/module/blog/preview/preview',
+			Kind
 		}
 	},
 	{

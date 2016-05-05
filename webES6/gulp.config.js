@@ -8,6 +8,7 @@ module.exports =  {
 		dest: `${dest}`
 	},
 	webpack: {
+		devtool: 'source-map',
 		entry: {
 			'/module/blog/list/list': `${src}/module/blog/list/list`,
 			'/module/blog/edit/edit': `${src}/module/blog/edit/edit`,
