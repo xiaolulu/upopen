@@ -2,10 +2,6 @@ import blog from './blog';
 import comment from './comment';
 import {site} from '../config/config';
 import {logFile} from '../lib/loger';
-//import gen from '../lib/utils';
-
-//gen();
-
 
 const Routes = {
 	blog,
@@ -17,8 +13,10 @@ const Router = ( router ) => {
 	router.use((req, res, next) => {
 		if( req.path === '/favicon.ico' ){
 			res.end();
+			return;
 		}
 		logFile.info(`${req.method}==${req.path}`);
+		console.log(`${req.method}==${req.path}`)
 		next();
 	})
 	
@@ -40,11 +38,13 @@ const Router = ( router ) => {
 	}
 	
 	router.use( ( req, res, next ) => {
+		console.log(`${req.method}==${req.path}`)
 		res.status( 404 );
 		res.render( 'noFound.ejs' );
 	});
 	return router
 	
 }
+
 
 export default Router
