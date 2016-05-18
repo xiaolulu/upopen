@@ -1,4 +1,6 @@
 
 log/
 node_modules/
+webES6/views/blog/info/
 bak/
+.DS_Store
