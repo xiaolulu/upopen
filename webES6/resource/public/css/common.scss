@@ -9,7 +9,10 @@
 	height: 100%;
 	z-index: -1;
 	background: linear-gradient(45deg, #a177ff 0%, #02CEFF 100%);
+	background-color: #f00;
 }
+
+
 
 /**************
 common
@@ -198,7 +201,7 @@ main
 }
 
 .main .info{
-	border-bottom: 3px solid #E8E8E8;
+	border-bottom: 3px solid #29B8FF;
 }
 
 .main .title{

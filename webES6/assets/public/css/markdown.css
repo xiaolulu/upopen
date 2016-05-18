@@ -61,8 +61,8 @@
   background-color: #eee; }
 
 .markdown code, .markdown pre, .markdown #ws, .markdown #message {
-  font-family: Monaco;
-  font-size: 10pt;
+  font-family: monospace, Monaco;
+  font-size: 12px;
   border-radius: 3px;
   background-color: #F8F8F8;
   color: inherit; }

@@ -1,6 +1,7 @@
 const path = require( `path` );
 const src = path.join( __dirname, './resource' );
 const dest = path.join( __dirname, './assets' );
+const cview = path.join( __dirname, './cview' );
 
 module.exports =  {
 	images: {
@@ -32,6 +33,18 @@ module.exports =  {
 	sass: {
 		src: `${src}/**/*.scss`,
 		dest: `${dest}`
+	},
+	jshint: {
+		src: `${src}/**/*.js`
+	},
+	md5: {
+		src: `${dest}/**/*.css`,
+		html: `./views/**/*.ejs`,
+		dest: `${dest}`
+	},
+	html: {
+		src: `${cview}/**/*.ejs`,
+		dest: `./views`
 	}
 	
 }

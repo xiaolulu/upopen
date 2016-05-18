@@ -1,0 +1,94 @@
+<% include ../../common/header.ejs %> <div class="main" id="blogBox"><section><div class="info clearfix"><span class="title">前后端分离项目实践</span> <a class="type" href="/blog/list?kind=nodejs">nodejs</a> <img class="head" src="/public/imgs/head.png" width="42"></div><div class="tool"><!--span class="toolItem view">Views: 0</span>
+			<span class="toolItem talk">Comments: 0</span--> <span class="toolItem date">Date: 2016-05-03</span></div><div class="content clearfix markdown"><h3 id="-">一、前言</h3><ul><li>对nodejs有了些准备，希望多了解些后端知识，恰逢公司项目调整，分析了前后端分离的优劣，也做了一个完整的demo演示，同事都觉得靠谱，用了两个版本的时间，将公司主站项目用nodejs实现了前后端分离，在此和大家分享下，以求共同进步。案例参见 <a href="http://www.upopen.cn">http://www.upopen.cn</a></li></ul><h3 id="-">二、为何做分离</h3><ul><li><p>1、开发体系：架构体系决定了后端重于前端，前端做好静态页后，要转为php或vm等，开发要用eclipce等后端环境工作，一大堆让前端迷糊的配置，一旦java人员更新了错误的文件，会导致所有人的环境启动不了，束手无策，只能等待救援。</p></li><li><p>2、难维护：页面总是会有php\jsp等非前端代码，相互干扰、无法优化，时间越久问题越突出。</p></li><li><p>3、前后端职责不清晰。</p></li><li><p>有人会问，分离为什么不全部走ajax，页面就不需要任何服务端语言了。但实际场景并非如此，首先有些数据总是要生成页面时就已经同步获取的，且全异步对SEO不利、纯html页面没有include功能等。 网上还有其它的理解，大致相同就不列举了。</p></li></ul><h3 id="-">三、如何做分离</h3><ul><li><p>1、产品设计确定后，前后端人员共同制定开发接口，为方便接口的制定、显示、测试，使用nodejs+mongodb开发了接口平台。参见<a href="http://www.upopen.cn:8090/interface/index">http://www.upopen.cn:8090/interface/index</a> 功能：制定接口时就直接在interface平台上新增录入ActionName、description、 method、 param 及 默认值 等并保存到mongodb，当后台开发完成后，直接用在该页面做接口测试，成功后方可交付，避免联调过程中的接口反复。（原本想用interface.upopen.cn 来测试同域名下的项目，但因cookie在不同二级域名下无法共享的问题，暂用了二级目录，不过已有方案，后续优化）</p></li><li><p>2、从前端角度考虑系统架构图如下：</p></li><li><p>前后端分离架构图</p></li></ul><p><img src="http://dl2.iteye.com/upload/attachment/0109/5335/aa3756e5-d06c-3431-aadf-30733d2d4466.png" alt="alt text" title="Logo Title Text 2"></p><ul><li><p>访问入口 NGINX 代理静态资源到 STATIC 服务器，其它请求则到 NODEJS。</p></li><li><p>页面请求NODEJS直接render，数据相关NODEJS则做预处理，再发到后台</p></li><li><p>前端据已定义的接口，通过nodejs+mysql模拟后台完成数据存取，此处会增加些工作量，但只是为了走通业务流程，模拟后台数据表定义及逻辑无需严谨，只要能正常存取即可，如注册用户save to DB，登录验证read from DB，所以提供模式化的工具、写法后，新增表、接口，并不会多耗时间，nginx – nodejs – 模拟后台，即可按实际使用完成所有前端工作。</p></li><li><p>QA单独测前端时，修改hostIP指向到测试工具。</p></li><li><p>Java开发完成后接口，在 Interface平台 上验证所有接口，确认无误。QA也可以通过Interface测试Java接口</p></li><li><p>nodejs修改config里的hostIP配置到java，理想情况下，修改此步配置即完成联调</p></li><li><p>每个模块的简略部署如下：</p></li></ul><pre><code class="lang-js">Nginx.conf：
+     Location ~ \.(jpg|png|css|js ){ //静态资源代理
+          Root /root/static/;
+     }
+     Location \{ //其它接口转发
+     Proxy_pass http://upopen.cn;
+}
+…
+Upsteam upopen.cn{
+     Server http://node.upopen.cn;
+}
+</code></pre><ul><li>STATIC 结构如下：使用require.js做模块化加载工具，有朋友问为什么不用seajs，还问这两个优劣，其实前两年的项目用的都是seajs，此处想试试amd vs cmd，所以就用了require.js ，以目前的使用来看，相互可替代</li></ul><pre><code class="lang-js">Core：[核心模块，主要是引入第三方必用、稳定模块]
+     Base.js [自定义通用函数]
+     Require.js
+     Jquery.js
+     Bootstrap.js
+     Backgone.js
+     Socket.io.js
+     I18n.js
+     …
+Public: [业务级公共模块]
+     Validate.js [表单验证模块]
+     All.js [所有页面需要执行的业务js，如登录验证]
+     Zhdoc.js [国际化文本定义]
+     Reset.css [样式初始化]
+     common.css
+     …
+Widget: [自定义组件]
+     Dialog: [弹框组件]
+          Dialog.js
+          Dislog.css
+          Imgs: [弹框组件图片]
+     Calendar:[日志组件]
+          Calendar.js
+          Calendar.css
+          Imgs: [日历组件图片]
+     …
+Module: [业务模块]
+     Issue: [静态模块]
+          Index: [首页]
+               Index.js
+               Index.css
+               Imgs:
+          news: [新闻]
+               news.js
+               news.css
+               imgs:
+          …
+     User: [用户模块]
+          Register: [注册]
+               Register.js
+               Register.css
+               Imgs:
+          findPwd: [找回密码]
+               findPwd.js
+               findPwd.css
+               imgs:
+          …
+Nodejs结构主要如下： express 框架
+     App.js
+     Package.json
+     Node_modules:
+     Routes:
+          Index.js – 路由入口，接收所有请求做转发，并做权限过滤、404等
+          Issue.js – 接收来自index.js的静态请求
+          User.js - 接收来自index.js的用户请求，页面请求render，数据请求转发
+          …
+     Views: [使用ejs框架，接收来自 routes 里的页面请求]
+          Common: [公用模块页]
+               Header.ejs
+               Footer.ejs
+               …
+          Issue: [静态模块页]
+               Index.ejs
+               News.ejs
+               …
+          User: [用户模块页]
+               Register.ejs
+               findPwd.ejs
+               …
+          Controls: [业务逻辑模块]
+               Config.js –公共配置模块，如hostIP、basePath等，切换环境修改此配置
+               User.js - 接收来自 route/user.js的数据请求，向外转发做逻辑准备
+               Tool.js - 封装常用函数如http.request/mailer/md5等
+               Redis.js - redis封装，对于单体封装内容比较多的模块，单独成立一个文件
+               …
+          Log: [日志，采用Log4js，日志是必须的，页面开发者常欠缺日志理念]
+         Assets: 结构、使用同 STATIC，不配置nginx时，调用此处资源，意义不大
+         …
+Nodejs + MySql: [模拟后台模块，相对上面的模块，主要多了DB]
+     Db: [数据处理模块]
+          Mysql.js – 封装模式化数据存储接口，提供最便捷的新增表、接口的方法
+</code></pre><ul><li>按此结构完成前端所有功能，因目前项目较小，部分模块还有细分空间。</li></ul><h3 id="-">四、分离结果如何</h3><ul><li><p>1、开发效率更高，在联调之前，互不干扰，前端开发完成后就是实际可用的代码，不需要再转换成后台编译环境，永远不会被java / php 启动不成功所困扰。</p></li><li><p>2、部分需要前后端共同开发的功能，如文件上传，通常需要页面端与接收端都进行相关的开发配置，之前较难定位是谁配置错误，现在全部由前端完成，开发、测试都容易定位，上传成功后，只要向java发送文件保存的路径即可。</p></li><li><p>3、完全分清了前后端开发人员的职责，任一方开发完成后都可以提测，实现同步开发、测试。</p></li><li><p>4、联调非常简单，若双方接口一致，正常情况下只要修改要接口请求IP即可完成切换。</p></li><li><p>5、问题责任清晰，联调、测试、预发、上线，每个过程都难免会产生问题，前端、后端、运维三方责任边界清晰，日志中记录nodejs的请求发出，nginx请求接收与转发、java端请求接收与返回，三处任何一处断点，都能马上定位是哪方的问题。</p></li><li><p>6、前端人员有更高的权限，页面端的展示几乎全由前端实现，但之前一些配置却受制于后台，比如常见的模板功能，纯html页面虽可以通过angularjs实现模板，但实际效果却并不理想，网速差时经常会出现include部分显示后置、甚至加载不成功的情况，nodejs的ejs框架可以很好的实现这个功能。</p></li><li><p>另外，据浏览器加载不同的css以便实现浏览器兼容，之前处理通常是页面加载后，通过js判断浏览器类型，再去加载不同的css文件，影响渲染效率，并且js判断浏览器类型本身就存在兼容问题，用nodejs则可以在render前就完成该判断，直接用相应的浏览器样式做渲染</p></li><li><p>7、代码复用，验证模块，页面端与nodejs端可以直接复用</p></li></ul><h3 id="-">五、注意事项：</h3><ul><li><p>1、前端开发人员不仅需要有扎实的nodejs知识，还要有一定的服务端、运维知识，对http通信有更深层次的理解，nginx、redis、socket、buffer等技术也要掌握，多多益善。</p></li><li><p>2、开发之初对功能充分、宽裕的评估，使用初期不要用nodejs过多开发新功能。初次使用，难免会遇到很多意想不同的问题，前端开发人员本身对服务端知识有限，java人员又对nodejs语法不熟，若处理不好会导致项目延期。我原本认为redis同memcached一样就是connect + set + get，但实际开发时遇到一些考虑不周而产生的怪异问题，延长该部分开发时间，最终导致项目delay。</p></li><li><p>3、前端开发人员可尝试用linux系统开发，第一版用win7开发时，npm部分模块的安装会不顺利，如node-canvas在win7上安装需要6步，而原本在32上已配置成功了，在64位上的系统上又不成功，后来该接口暂由java实现。实际上即使配置成功了，该模块在发布服务器的linux系统上也无法使用，需要重新安装。第二版开发时，我使用了ubuntu，虽然有一定的学习成本，但对后期的效率提升十分有益，多学习一种系统操作，和运维调试时也更加主动。不过ubuntu下没有找到做PSD切图的工具，所以安装双系统更合适切换使用。</p></li></ul><h3 id="-">六、总结：</h3><ul><li>目前用分离方式做了两版项目，开发效率提升、协作沟通便捷上有明显优势，作为前端也学习了很多新知识、扩大影响范围，是共赢的。目前使用还较初级，要继续学习、探索。在此贴出以便和同仁共进步之。</li></ul></div></section><div class="comments" name="comments" id="comments"><div class="commentWrap" id="commentWrap"></div><form class="commentForm" id="commentForm"><input type="text" placeholder="you name" id="commentUser" maxlength="30" class="commentUser"><br><textarea class="commentContent" id="commentContent" rows="6" maxlength="1000" placeholder="your comment for this blog within 1000 words"></textarea><br><button type="submit" id="commentBtn" class="btn">SAVE COMMENT</button><br><br></form></div></div> <% include ../../common/slide.ejs %> <% include ../../common/footer.ejs %>

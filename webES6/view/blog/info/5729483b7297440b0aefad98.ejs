@@ -1,0 +1,158 @@
+<% include ../../common/header.ejs %> <div class="main" id="blogBox"><section><div class="info clearfix"><span class="title">gulp api</span> <a class="type" href="/blog/list?kind=nodejs">nodejs</a> <img class="head" src="/public/imgs/head.png" width="42"></div><div class="tool"><!--span class="toolItem view">Views: 1</span>
+			<span class="toolItem talk">Comments: 0</span--> <span class="toolItem date">Date: 2016-05-03</span></div><div class="content clearfix markdown"><h3 id="-">一、前言</h3><p>gulp是一个适用于javascript的构建工具，能自动执行已定义的常见任务，如语法检测（jshint）、测试（mocha）、压缩（uglify）等。其相当于maven之于java。</p><p>还有一个更早出现的构建工具grunt，其也提供了gulp的功能，且功能更为强大，但其在配置及使用上更为繁琐，其实现的理念也导致其编译效率较低，新出现gulp的出现正是为了解决这些问题，在后面的使用过程中将逐渐对比两者的优劣。</p><p>官网： <a href="http://gulpjs.com/">http://gulpjs.com/</a></p><p>中文：<a href="http://www.gulpjs.com.cn/">http://www.gulpjs.com.cn/</a></p><h3 id="-">二、安装</h3><pre><code> npm install -g gulp
+</code></pre><p>gulp提供的是一个构建工具，要真正实现我们需要的功能，还需要下载相关的插件，如</p><pre><code>npm install gulp-uglify --save-dev
+</code></pre><h3 id="-api-">三、使用API：</h3><p>下面通过实现一个gulp的demo，来学习其API。</p><p>创建gulp文件夹，新建gulpfile.js作为gulp的启动文件，插入如下代码</p><pre><code> var gulp = require(&#39;gulp&#39;);
+
+ gulp.task( &#39;default&#39;, function(){
+    console.log( &#39;this is gulp default&#39; );
+ });
+</code></pre><p>使用cli进入到 gulp目录，执行gulp，其会自动找到gulpfile.js并执行，打印信息如下</p><pre><code> cc@cc:~/Work/gulp$ gulp
+ [07:23:15] Using gulpfile ~/Work/gulp/gulpfile.js
+ [07:23:15] Starting &#39;default&#39;...
+ this is gulp default
+ [07:23:15] Finished &#39;default&#39; after 133 μs
+</code></pre><p>执行完后会自动退出，后面会有不自动退出的情况，μs是微秒单位</p><p>现在我们按一个较正规的系统目录，参照前面几章实现的项目。</p><p>cli到gulp目录下，执行 npm init，自行配置相关描述，可如下</p><pre><code> {
+    &quot;name&quot;: &quot;gulp&quot;,
+    &quot;version&quot;: &quot;1.0.0&quot;,
+    &quot;description&quot;: &quot;this is a demo for gulp&quot;,
+    &quot;main&quot;: &quot;index.js&quot;,
+    &quot;dependencies&quot;: {},
+    &quot;scripts&quot;: {
+        &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;
+    },
+    &quot;author&quot;: &quot;upopen.cn&quot;,
+    &quot;license&quot;: &quot;ISC&quot;
+ }
+</code></pre><p>gulp下新建assets/core/js/base.js，插入</p><pre><code> function base( name ){
+    console.log( &#39;this is base, hi &#39; + name );
+ }
+</code></pre><p>再新建assets/core/css/common.css，插入</p><pre><code> body{
+    margin: 0;
+    padding: 0;
+    background: #afafaf;
+ }
+ a{
+    text-decoration: none;
+ }
+</code></pre><p>下载基于uglify的代码压缩插件 gulp-uglify</p><p>cli执行 npm install gulp-uglify --save-dev</p><p>修改gulpfile.js</p><pre><code>var gulp = require( &#39;gulp&#39; ),
+    uglify = require( &#39;gulp-uglify&#39; );
+
+ gulp.task( &#39;default&#39;, function(){
+    gulp.src( &#39;assets/core/js/base.js&#39; )
+        .pipe( uglify() )
+        .pipe( gulp.dest( &#39;assets_min&#39; ) );
+ });
+</code></pre><p>cli执行gulp</p><p>即实现了将assets/core/js/base.js压缩并插入到新建文件夹 assets_min内，和nodejs写法很相同，且条目简单，若用grunt做同样的功能则需要做相当多的配置。</p><p>gulp的API总共有四个，我们一次就用到了其中的三个。</p><hr><ol><li><p>gulp.task( name[, deps], fn )：创建一个任务</p><p>name: String 任务名 deps: Array 任务依赖，其会在任务之前执行 fn: Function 任务事件</p></li></ol><p>cli执行gulp时，默认会执行gulpfile.js里的default任务，若需执行其它任务，可以将其它任务作为default的deps，如</p><pre><code> var gulp = require( &#39;gulp&#39; ),
+    uglify = require( &#39;gulp-uglify&#39; );
+
+ gulp.task( &#39;default&#39;, [ &#39;minify&#39; ] );
+ gulp.task( &#39;minify&#39;, function(){
+    gulp.src( &#39;assets/core/js/base.js&#39; )
+        .pipe( uglify() )
+        .pipe( gulp.dest( &#39;assets_min&#39; ) );
+ });
+</code></pre><p>若只是想单独执行minify，也可以通过cli执行 gulp minify，来显示执行指定的task</p><p>fn函数内的常见形式是 gulp.src( &#39;assets/core/js/base.js&#39; ).pipe( uglify() )，读取文件.pipe( 执行压缩 ).pipe( 添加到文件夹 )，pipe是用流传递操作后的数据，下一个pipe接收到数据做操作后再向后传递，比起grunt的创建临时文件效率更高。可以通过输出src的引用查看</p><pre><code> var stream = gulp.src( ... ).pipe( .. )
+ console.log( stream );
+</code></pre><p>文件流的工作原理 <a href="https://github.com/substack/stream-handbook">https://github.com/substack/stream-handbook</a></p><p>fn 也支持异步的形式，需要在function添加实参cb，当异步返回时执行cb()即可，和mocha的回调添加实参done同理，如</p><pre><code> var exec = require(&#39;child_process&#39;).exec;
+ gulp.task(&#39;jekyll&#39;, function(cb) {
+     exec(&#39;jekyll build&#39;, function(err) {
+         if (err) return cb(err);
+         cb();
+     });
+ });
+</code></pre><p>注意task默认将以最大的并发数执行，多个task之间不会相互等待，若需序列执行，注意使用deps 及 异步情况</p><hr><ol><li>gulp.src( globs[, options ] )</li></ol><p>读取指定路径的文件，输出到piped的下一个插件中。</p><p>globs的语法 <a href="https://github.com/isaacs/node-glob">https://github.com/isaacs/node-glob</a></p><p>globs可以为Array / String，如上例中，可以是</p><pre><code> &#39;assets/core/js/base.js&#39;
+&#39;asserts/*/*/base.js&#39;
+&#39;asserts/*/*.js&#39;
+[ &#39;assets/*/*.js&#39; ]
+</code></pre><p>更多匹配规则可以参考 <a href="https://github.com/isaacs/minimatch">https://github.com/isaacs/minimatch</a></p><p>注意 * 的用法，/*.js，表示当前子目录的所有js文件，而/*/*.js，其N级下的子目录，即当有多层子目录时，不需要添加多层的*</p><p>options可以配置</p><pre><code>buffer: true | false  是否以流的形式传播
+read: true | false     是否可读
+base: &#39;&#39;
+</code></pre><p>其中只base作为统一路径可能被使用外，其它两个基本不会使用，后面会用到base</p><hr><p>gulp.dest( path[, options ] )</p><p>将接收到的数据输出到path下，若path不存在，会自动创建</p><pre><code>path: String | Function，可据fun生成路径
+options: 几乎不用
+      cwd: String 输出当前路径
+      mode: 0777，用于配置权限
+</code></pre><p>注：需要注意path的使用，其和gulp.src里的glob及 options里的base设置是相关，</p><p>注意上例中以下几种情况</p><pre><code> gulp.src( &#39;assets/core/js/base.js&#39; ).pipe( gulp.dest( &#39;assets_min&#39; ) ); //assets_min/base.js
+ gulp.src( &#39;assets/core/**/base.js&#39; ).pipe( gulp.dest( &#39;assets_min&#39; ) ); //assets_min/js/base.js
+ gulp.src( &#39;assets/**/**/base.js&#39; ).pipe( gulp.dest( &#39;assets_min&#39; ) ); //assets_min/core/js/base.js
+ gulp.src( &#39;assets/core/**/base.js&#39;,{base: &#39;assets&#39;}).pipe( gulp.dest( &#39;assets_min&#39; ) ); //assets_min/core/js/base.js
+</code></pre><p>可以看出path取的是 **部分，若设置了base，则取base后的部分。</p><p>实现一个更复杂些的例子来表现gulp的用法。</p><p>在assets/core/js/ 下与base.js同级新建common.js</p><p>新增语法检测插件jshint，及文件组合插件concat。</p><p>cli下执行 cnpm install gulp-jshint gulp-concat --save-dev</p><p>修改gulpfile.js</p><pre><code> var gulp = require( &#39;gulp&#39; ),
+    uglify = require( &#39;gulp-uglify&#39; ),
+    jshint = require( &#39;gulp-jshint&#39; ),
+    concat = require( &#39;gulp-concat&#39; );
+
+ gulp.task( &#39;default&#39;, function(){
+     gulp.src( &#39;assets/core/**/**.js&#39;,{ base: &#39;assets&#39; } )
+         .pipe( jshint() )
+        .pipe( uglify() )
+        .pipe( concat( &#39;all.js&#39; ) )
+        .pipe( gulp.dest( function(){ return &#39;assets_min&#39; } ) )
+ });
+</code></pre><p>读取assets/core/js下的base.js、common.js --&gt; jshint语法检测 --&gt; uglify压缩 --&gt; concat合并为all.js --&gt; 添加到 assets_min 文件夹下</p><p>再讲下gulp的第四个API</p><p>gulp.watch( glob[, options ], task );</p><p>gulp.watch( glob[, options ], cb );</p><pre><code>glob: String | Array  监听文件的路径
+options:
+tasks: Array 当被监听的文件变动时，需要执行task
+cb: function 当文件变化时可执行的函数，
+</code></pre><p>在gulpfile.js文件里追加</p><pre><code> gulp.watch( &#39;assets/**/**.js&#39;,  [ &#39;default&#39; ] );
+ gulp.watch( &#39;assets/**/**.js&#39;, function( event ){
+    console.log( event );
+ })
+</code></pre><p>cli重新执行gulp，相比之前可以看到cli下并没有自动退出，此时修改assets/core/js/base.js保存后，cli自动显示执行了default，并且输出了{ type: &#39;changed&#39;,path: &#39;/home/cc/Work/gulp/assets/core/js/common.js&#39; }，即event表示文件的操作type及path。 打开assets_min下的all.js，可以看到修改后的内容也已经添加进来了。</p><p>gulp.watch本身会返回一个实例</p><p>其提供了events( change | end | error | ready | nomatch ) 及 method ( end | files | add | remove )</p><p>上面为watch追加的代码，可以修改为</p><pre><code> var watcher =gulp.watch( &#39;assets/**/**.js&#39;, [ &#39;default&#39; ] );
+ watcher.on( &#39;change&#39;, function( event ){
+    console.log( event );
+ });
+</code></pre><p>可以达到同样的效果</p><h3 id="-plugin">四、插件Plugin</h3><p>gulp作为一个构建工具，其只是提供了一个平台，可运行各款插件，以达到我们的项目需求，所以当我们学会使用gulp后，还需要了解其提供了哪些插件，甚至对没有提供的插件，我们可以自行封装。</p><p>插件列表 <a href="http://gulpjs.com/plugins/">http://gulpjs.com/plugins/</a></p><p>常用的插件有</p><pre><code>压缩CSS（gulp-minify-css）
+语法检查（gulp-jshint）
+文件拼接（gulp-concat）
+文件压缩（gulp-uglify）
+图片压缩（gulp-imagemin）
+实时加载（gulp-livereload）
+文件清理（gulp-clean）
+更新通知（gulp-notify）
+图片快取（gulp-cache）
+Autoprefixer（gulp-autoprefixer）
+</code></pre><p>当需要引用的插件列表较多时，可以使用gulp-load-plugins模块，代替所有插件的require，于是前面demo也可以写成</p><pre><code> var gulp = require( &#39;gulp&#39; ),
+    plugins = require( &#39;gulp-load-plugins&#39; )();
+
+ gulp.task( &#39;default&#39;, function(){
+     gulp.src( &#39;assets/core/**/**.js&#39;,{ base: &#39;assets&#39; } )
+        .pipe( plugins.jshint() )
+        .pipe( plugins.uglify() )
+        .pipe( plugins.concat( &#39;all.js&#39; ) )
+        .pipe( gulp.dest( function(){ return &#39;assets_min&#39; } ) );
+ });
+</code></pre><p>注意各插件的命名。</p><p>五、browser-sync</p><p>再介绍一个很酷的功能browser-sync。</p><p>当我们修改html/css/js等静态资源文件时，需要刷新才能看到效果，如果做测试时填写了一堆表单，还需要重新来做，browser-sync就提供这样的功能。不过其目前只在修改css文件时做到单独加载，Html/Js 的自动刷新还是全页面的。</p><p>cli上执行 npm install browser-sync --save-dev</p><p>在当前demo下新建views/index.html，引入上例中的 css / js，如下</p><pre><code> &lt;!DOCTYPE html&gt;
+ &lt;html&gt;
+ &lt;head&gt;
+     &lt;link href=&quot;../assets/core/css/common.css&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot; /&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+     this is a demo for browser-sync
+     &lt;input type=&quot;text&quot; /&gt;
+     &lt;script src=&quot;../assets/core/js/common.js&quot;&gt;&lt;/script&gt;
+ &lt;/body&gt;
+ &lt;/html&gt;
+</code></pre><p>在gulpfile.js后追加代码</p><pre><code> ...
+ var browserSync = require( &#39;browser-sync&#39; );
+ ...
+ gulp.task( &#39;browser-sync&#39;, function(){
+    var files = [ &#39;views/*.html&#39;, &#39;assets/**/*.js&#39;, &#39;assets/**/*.css&#39; ];
+    browserSync.init( files, {
+        server: { baseDir: &#39;&#39; }
+    })
+ })
+</code></pre><p>启动gulp，提示</p><pre><code> cc@cc:~/Work/gulp$ gulp
+ [16:02:41] Using gulpfile ~/Work/gulp/gulpfile.js
+ [16:02:41] Starting &#39;browser-sync&#39;...
+ [16:02:41] Finished &#39;browser-sync&#39; after 35 ms
+ [16:02:41] Starting &#39;default&#39;...
+ [16:02:41] Finished &#39;default&#39; after 310 ms
+ [BS] Access URLs:
+-------------------------------------
+Local: http://localhost:3000
+External: http://172.16.22.29:3000
+-------------------------------------
+UI: http://localhost:3001
+UI External: http://172.16.22.29:3001
+-------------------------------------
+ [BS] Serving files from: ./
+ [BS] Watching files...
+</code></pre><p>浏览器自动打开 localhost:3000，显示cannot get /，补全网址 localhost:3000/views/index.html，即打开了前面定义的html，此时对该html及引用的common.js /common.css的任何保存操作，都会导致资源自动更新，其中css的修改，只会更新当前资源，不会导致页面的整体刷新。</p></div></section><div class="comments" name="comments" id="comments"><div class="commentWrap" id="commentWrap"></div><form class="commentForm" id="commentForm"><input type="text" placeholder="you name" id="commentUser" maxlength="30" class="commentUser"><br><textarea class="commentContent" id="commentContent" rows="6" maxlength="1000" placeholder="your comment for this blog within 1000 words"></textarea><br><button type="submit" id="commentBtn" class="btn">SAVE COMMENT</button><br><br></form></div></div> <% include ../../common/slide.ejs %> <% include ../../common/footer.ejs %>

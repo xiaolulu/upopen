@@ -10,10 +10,11 @@
 		 
 	</div>
 </footer>
-<script src="//cdn.bootcss.com/jquery/3.0.0-beta1/jquery.js"></script>
+<!--script src="//cdn.bootcss.com/jquery/3.0.0-beta1/jquery.js"></script-->
+<script src="/vendor/js/jquery.js"></script>
 <script src="<%= assets%>.js"></script>
 <script>
-if( location.host.indexOf('upopen.cn') > -1 ){
+if( window.location.hostname === 'www.upopen.cn' ){
 	var hm = document.createElement("script");
 	hm.src = "//hm.baidu.com/hm.js?fca615d6ad621b43ae678025faa5727e";
 	var s = document.getElementsByTagName("script")[0]; 

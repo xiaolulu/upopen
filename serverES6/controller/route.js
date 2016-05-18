@@ -12,6 +12,10 @@ const Router = ( router ) => {
 	router.use(( req, res, next ) => {
 		console.log( `${req.method}===${req.path}`);
 		logFile.info( `${req.method}===${req.path}` );
+		console.log('######################')
+		console.log(req)
+		console.log('*********************')
+		console.log(req.body)
 		next();
 	});
 	

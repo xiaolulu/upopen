@@ -1,0 +1,43 @@
+<% include ../../common/header.ejs %> <div class="main" id="blogBox"><section><div class="info clearfix"><span class="title">markdown</span> <a class="type" href="/blog/list?kind=other">other</a> <img class="head" src="/public/imgs/head.png" width="42"></div><div class="tool"><!--span class="toolItem view">Views: 5</span>
+			<span class="toolItem talk">Comments: 0</span--> <span class="toolItem date">Date: 2016-04-27</span></div><div class="content clearfix markdown"><h3 id="-">一、安装</h3><blockquote><p>可以到npmjs.org上搜索marked 或 markdown，都可以作为解析器</p><pre><code class="lang-js">npm install marked --save
+</code></pre><hr></blockquote><h3 id="-">二、语法</h3><p><strong>注意不同的md解析出来的结果是不一样的。但大致是相同的</strong></p><h4 id="1-">1、段落</h4><p><strong>段落</strong> 其在html表现为用一个 <strong>P</strong> 标签，md实现需要在段落的前后各加一空行，如本行与下一段落之间插入了一个空行，实现了本行HTML的 <strong>P</strong> 标签。</p><h4 id="2-">2、换行</h4><p><strong>换行</strong> 在html表现为一个&lt;br /&gt;，可以在行尾加两个空格，再换行写其文本<br>如本行与上一行</p><h4 id="3-">3、标题</h4><p>在HTML生成h1...h5标签，提供两种形式</p><h5 id="a-atx">a、atx</h5><p>在需要设置标题的前面加 <strong>#</strong> 符号，据数量1..5，分别对应h1...h5，注意符号与标题间留一空格</p><pre><code class="lang-js"># h1
+### h3
+##### h5
+</code></pre><h1 id="h1">h1</h1><h3 id="h3">h3</h3><h5 id="h5">h5</h5><h5 id="b-setext">b、Setext</h5><p>只支持h1 / h2，通过在标题下加 <strong>=</strong> / <strong>-</strong> 设置</p><pre><code class="lang-js">H1
+===
+h2
+---
+</code></pre><h1 id="h1">H1</h1><h2 id="h2">h2</h2><h4 id="4-">4、引用</h4><p>引用在html表现为 <strong>blockquote</strong> 标签</p><blockquote><p>这里是引用1<br>这里是多行引用2</p><blockquote><p>这里里嵌套引用1.1</p><blockquote><p>嵌套引用里可以使用 <strong>markdown</strong> 语法</p></blockquote></blockquote></blockquote><h4 id="5-">5、列表</h4><p>分有序和无序，有序表现为 <strong>ol</strong>，无序表现为 <strong>ul</strong>， 不同的md解析出来的会有不同</p><pre><code class="lang-js">* 这里是列表项1
+* 这里是列表项2
++ 这里是列表项2
+- 这里是列表项3
+</code></pre><ul><li>这里是列表项1</li><li>这里是列表项2</li></ul><ul><li>这里是列表项2</li></ul><ul><li>这里是列表项3</li></ul><pre><code class="lang-js">1. 有序列表
+2. 以数字和.开始
+4. 但显示时的数字不以编辑时的数字显示
+</code></pre><ol><li>有序列表</li><li>以数字和.开始</li><li>但显示时的数字不以编辑时的数字显示</li></ol><pre><code class="lang-js">1. 有序无序可以相互嵌套
+  * 缩近两个空格嵌套近来一个无序的
+  * 和另外一个无序的
+2. 这个是有序的
+</code></pre><ol><li>有序无序可以相互嵌套<ul><li>嵌套近来一个无序的</li><li>和另外一个无序的</li></ul></li><li>这个是有序的</li></ol><h4 id="6-">6、代码块</h4><p>html表现为 <strong>code</strong> 标签，可以将代码块包含在 ``` 符号内</p><pre><code class="lang-js">&lt;table&gt;
+    &lt;tr&gt;
+        &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+</code></pre><h4 id="7-">7、分隔线</h4><p>html表现为 &lt;hr&gt;，在一行内使用三个 _</p><pre><code class="lang-js">正面这个表现为 &lt;hr&gt;
+___
+</code></pre><hr><h4 id="8-">8、超链接</h4><p>html表现为 &lt;a href=&quot;&quot;&gt;text&lt;/a&gt;</p><h5 id="a-">a、行内式</h5><p>格式为<a href="url" title="title text"> link text</a>，title可省略</p><pre><code class="lang-js">[upopen](http://www.upopen.cn &#39;upopen.cn&#39;)
+</code></pre><p><a href="http://www.upopen.cn" title="upopen.cn">upopen</a></p><p>也可以指向本地链接</p><pre><code class="lang-js">[blog nodejs](./blog/list?kind=nodejs)
+</code></pre><p><a href="./blog/list?kind=nodejs">blog nodejs</a></p><h5 id="b-">b、自动链接</h5><p>使用&lt;&gt;将url括起来，简单方便</p><pre><code class="lang-js">&lt;http://www.upopen.cn&gt;
+</code></pre><p><a href="http://www.upopen.cn">http://www.upopen.cn</a></p><h4 id="9-">9、图片</h4><p>使用上同超链接，只前面加!</p><pre><code class="lang-js">![head pic](http://www.upopen.cn/public/imgs/head.png &#39;用户头像&#39;)
+</code></pre><p><img src="http://www.upopen.cn/public/imgs/head.png" alt="head pic" title="用户头像"></p><h4 id="10-">10、强调</h4><p>使用 **Txt** 实现 &lt;strong&gt;，使用 *Em* 实现 &lt;em&gt;</p><pre><code class="lang-js">**这里是加粗文字**
+*这里是斜体*
+</code></pre><p><strong>这里是加粗文字</strong><br><em>这里是斜体</em></p><h4 id="11-">11、转义</h4><p>md多数编译都是通过符号来声明的，对原符号本身的使用需要使用转义符 <strong>\</strong></p><pre><code class="lang-js">这样写是 **加粗**
+这样写就知道为什么会 \*\*加粗\*\*
+需要转义的符号有
+` * _ - { } [ ] ( ) # ! . + ~
+</code></pre><p>这样写是 <strong>加粗</strong><br>这样写就知道为什么会 **加粗**</p><h4 id="12-">12、删除线</h4><p>使用 ~~删除线~~，html表现为 &lt;del&gt; <del>删除线</del></p><h4 id="13-">13、表格</h4><p>使用 - | 来划分表头及单元格</p><pre><code class="lang-js">| name | age | height |
+| :----    | :---:   | ----:    |
+| jxiao  | 12   | 176     |
+| Mike  |  32  | 172     |
+---: 表示向哪方对齐
+</code></pre><table><thead><tr><th style="text-align:left">name</th><th style="text-align:center">age</th><th style="text-align:right">height</th></tr></thead><tbody><tr><td style="text-align:left">jxiao</td><td style="text-align:center">12</td><td style="text-align:right">176</td></tr><tr><td style="text-align:left">Mike</td><td style="text-align:center">32</td><td style="text-align:right">172</td></tr></tbody></table><h3 id="-ide-">三、IDE工具</h3><p>目前提供了很多md的IDE工具，如 MacDown / Mou / Haroopad / sublime-markdown-extended 等</p><h3 id="-">四、参考</h3><blockquote><p>学习markdown时，参考了 <a href="http://xianbai.me/learn-md/">http://xianbai.me/learn-md/</a> ，其也有更详细的介绍</p></blockquote></div></section><div class="comments" name="comments" id="comments"><div class="commentWrap" id="commentWrap"></div><form class="commentForm" id="commentForm"><input type="text" placeholder="you name" id="commentUser" maxlength="30" class="commentUser"><br><textarea class="commentContent" id="commentContent" rows="6" maxlength="1000" placeholder="your comment for this blog within 1000 words"></textarea><br><button type="submit" id="commentBtn" class="btn">SAVE COMMENT</button><br><br></form></div></div> <% include ../../common/slide.ejs %> <% include ../../common/footer.ejs %>

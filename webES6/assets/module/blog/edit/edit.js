@@ -66,7 +66,7 @@
 			data.id = _id;
 			url = '/blog/update'
 		}
-		editorBtn.attr( 'disabled', true );
+		//editorBtn.attr( 'disabled', true );
 		$.ajax({
 			url: url,
 			type: 'post',

@@ -6,6 +6,10 @@ const app = express();
 const router = express.Router();
 const port = '3001';
 
+const evn = process.env.NODE_ENV || 'production';
+
+console.log( `==${process.env.HOME}` )
+
 app
 .set( 'views', `${__dirname}/views`)
 .set( 'view engine', 'ejs' )
@@ -13,6 +17,7 @@ app
 	index: 0,
 	maxAge: 600000
 }))
+//.use( express.favicon() )
 .use( bodyParser.urlencoded({
 	extended: 1
 }))

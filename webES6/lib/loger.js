@@ -1,10 +1,12 @@
 import log4js from 'log4js';
-import {mkdir} from 'fs';
+import {mkdir, existsSync} from 'fs';
 import { logPath } from '../config/config';
 
 const path = `${logPath}/web/`;
 
-mkdir( `${path}`, (err) => {console.log(`mkdir log server ${err}`)} );
+if( !existsSync(path) ){
+	mkdir( `${path}`, (err) => {console.log(`mkdir log server ${err}`)} );
+};
 
 const logConfig = {
 	'appenders':[
