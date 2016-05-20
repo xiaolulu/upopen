@@ -23,6 +23,9 @@ const Kind = [
 	},{
 		text: 'other',
 		id: 'other'
+	},{
+		text: 'tool',
+		id: 'tool'
 	}
 ];
 

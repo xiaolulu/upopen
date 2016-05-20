@@ -1,6 +1,7 @@
 import express from 'express';
 import Router from './controller/route';
 import bodyParser from 'body-parser';
+import {logInfo} from './lib/loger';
 
 const app = express();
 const router = express.Router();
@@ -23,5 +24,6 @@ app
 }))
 .use( Router( router ))
 .listen( port, function(){
+	logInfo.info(`server start listening on ${port}`);
 	console.log(`server start listening on ${port}`);
 })

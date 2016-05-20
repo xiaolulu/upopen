@@ -10,10 +10,10 @@ const site = {
 }
 
 
-const logPath = path.normalize(`${__dirname}/../../log`)
+const logDir = path.normalize(`${__dirname}/../../log`);
 
 export {
 	server,
 	site,
-	logPath
+	logDir
 }

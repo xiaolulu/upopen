@@ -2,6 +2,7 @@ import Request from '../lib/request';
 import fs from 'fs';
 import marked from 'marked';
 import {Highlight} from 'highlight';
+import {logFile} from '../lib/loger';
 
 marked.setOptions({
   renderer: new marked.Renderer(),
@@ -28,6 +29,7 @@ export default {
 	fetchList( req, res, path ){
 		Request( req, res, path, ( body ) => {
 				body = JSON.parse( body );
+				logFile.info(body);
 				body.data.map( item => item.content = marked( item.content ));
 				res.send( body );
 			} );

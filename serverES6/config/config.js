@@ -10,10 +10,10 @@ const mongodb = {
 	name: 'upDB'
 }
 
-const logPath = path.normalize(`${__dirname}/../../log`)
+const logDir = path.normalize(`${__dirname}/../../log`);
 
 export {
 	self,
 	mongodb,
-	logPath
+	logDir
 }

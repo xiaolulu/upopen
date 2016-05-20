@@ -1,12 +1,13 @@
 import log4js from 'log4js';
-import {mkdir} from 'fs';
-import { logPath } from '../config/config';
+import { logDir } from '../config/config';
+import { mkdirsSync } from '../lib/utils';
 
-const path = `${logPath}/server/`;
+const path = `${logDir}/server/`;
+console.log( path )
 
-mkdir( `${path}`, (err) => {console.log(`mkdir log server ${err}`)} );
+mkdirsSync( path, '0777' ) && console.log(`mkdir log directory success`)
 
-const logConfig = {
+const config = {
 	'appenders':[
 		{
 			'type': 'console',
@@ -15,23 +16,23 @@ const logConfig = {
 		{
 			'type': 'dateFile',
 			'category':'info',
-			'filename': `${path}`,
+			'filename': '',
 			'pattern':'yyyyMMdd_info.log',
 			'alwaysIncludePattern':true
 		},
 		{
 			'type': 'dateFile',
 			'category':'warn',
-			'filename':`${path}`,
+			'filename':'',
 			'pattern':'yyyyMMdd_warn.log',
 			'alwaysIncludePattern':true
 		},
 		{
 			'type': 'file',
 			'category': 'file',
-			'filename': `${path}/file.log`,
+			'filename': '/file.log',
 			'maxLogSize': 1024*1028*10,		
-			'backups': 2
+			'backups': 10
 		}
 	],
 	replaceConsole: true,
@@ -43,16 +44,14 @@ const logConfig = {
 	} 
 }
 
-log4js.configure( logConfig );
+log4js.configure( config, { cwd: `${path}`} );
 
 const logFile = log4js.getLogger( 'file' );
 const logInfo = log4js.getLogger( 'info' );
 const logWarn = log4js.getLogger( 'warn' );
-const logCon = log4js.getLogger( 'console' );
 
 export {
 	logFile,
 	logInfo,
-	logWarn,
-	logCon
+	logWarn
 };
