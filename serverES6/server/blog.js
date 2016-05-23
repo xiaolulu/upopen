@@ -41,6 +41,7 @@ const blog = {
 		})*/
 	},
 	update( req, res ){
+		req.body.date = new Date;
 		const data = req.body
 		const id = data.id;
 		delete data.id;
