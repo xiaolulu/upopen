@@ -67,7 +67,7 @@ const fetchdb = ( Model, data, cb ) => {
 			} else {
 				cb( {code: 0, data: docs, msg: `fetch success`})
 			}
-		} );
+		} ).sort({date: -1});
 	};
 
 /**
