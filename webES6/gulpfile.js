@@ -4,7 +4,8 @@ const webpack = require( 'webpack' );
 const sass = require( 'gulp-sass' );
 const imagemin = require('gulp-imagemin');
 const jshint = require('gulp-jshint');
-const md5 = require('gulp-md5-assets');
+const md5 = require('gulp-md5-plus');
+const minifycss = require('gulp-minify-css');
 
 const htmlmin = require('gulp-htmlmin');
 
@@ -29,6 +30,7 @@ gulp.task( 'webpack', function(){
 gulp.task( 'sass', function(){
 	gulp.src( config.sass.src )
 		.pipe( sass().on( 'error', sass.logError ))
+		.pipe( minifycss() )
 		.pipe( gulp.dest( config.sass.dest ));
 });
 
@@ -52,7 +54,7 @@ gulp.task( 'htmlmin', function(){
 } );
 
 
-gulp.task( 'default', ['webpack', 'imagemin', 'sass', 'htmlmin', 'md5' ], function(){
+gulp.task( 'default', ['webpack', 'imagemin', 'sass', 'htmlmin' ], function(){
 	gutil.log( 'this is gulp default' );
 });
 

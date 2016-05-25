@@ -1,6 +1,7 @@
 const path = require( `path` );
+const webpack = require(`webpack`);
 const src = path.join( __dirname, './resource' );
-const dest = path.join( __dirname, './assets' );
+const dest = path.join( __dirname, '../assets' );
 const cview = path.join( __dirname, './cview' );
 
 module.exports =  {
@@ -16,19 +17,35 @@ module.exports =  {
 			'/module/blog/info/info': `${src}/module/blog/info/info`,
 			'/module/blog/preview/preview': `${src}/module/blog/preview/preview`,
 			'/module/blog/mis/mis': `${src}/module/blog/mis/mis`
+			//'/vendor/js/jquery': `${src}/vendor/js/jquery`
 		},
 		output: {
 			path: dest,
 			filename: `[name].js`
 		},
 		resolve: {
-			extensions: [``,`.js`]
+			extensions: [``,`.js`],
+			alias: {
+				$: `jquery`
+			}
 		},
 		module: {
 			loaders: [
 				{ test: /\.scss$/, loader: `style!css!sass` }
 			]
-		}
+		},
+		plugins : [
+			new webpack.optimize.MinChunkSizePlugin({
+				compress : {
+					warnings: false
+				}
+			}),
+			new webpack.optimize.UglifyJsPlugin({
+				compress: {
+					warnings: false
+				}
+			})
+		]
 	},
 	sass: {
 		src: `${src}/**/*.scss`,
