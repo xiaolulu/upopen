@@ -20,6 +20,7 @@ const Blog = mongoose.model( 'blog', BlogSchema, 'blog' );
 
 const blog = {
 	save( req, res ){		
+		req.body.date = new Date;
 		const data = req.body;
 		savedb( Blog, BlogSchema, data, ( ret ) => { res.send( ret )})
 	},
