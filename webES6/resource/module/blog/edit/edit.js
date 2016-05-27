@@ -30,7 +30,9 @@ $( '#editorForm' ).on( 'submit', function(){
 			if( ret.code == 0 ){
 				editorBtn.attr( 'disabled', false );
 				hint.show( '保存成功' );
-				return;
+				if( url === '/blog/update' ){
+					return;
+				}
 				setTimeout( function(){
 					window.location.href = '/blog/mis';
 				}, 1000 )

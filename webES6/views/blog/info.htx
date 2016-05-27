@@ -11,6 +11,7 @@
 			<span class="toolItem talk">Comments: {comment}</span-->
 			<span class="toolItem date">Date: {date}</span>
 		</div>
+		<div class="summary clearfix">{summary}</div>
 		<div class="content clearfix markdown">{content}</div>
 	</section>
 	<div class="comments" name="comments" id="comments">
