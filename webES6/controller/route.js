@@ -1,11 +1,13 @@
 import blog from './blog';
 import comment from './comment';
+import issue from './issue';
 import {site} from '../config/config';
 import {logFile} from '../lib/loger';
 
 const Routes = {
 	blog,
-	comment
+	comment,
+	issue
 }
 
 const Router = ( router ) => {
@@ -16,7 +18,7 @@ const Router = ( router ) => {
 			return;
 		}
 		logFile.info(`${req.method}==${req.path}`);
-		console.log(`${req.method}==${req.path}`)
+		console.log(`${req.method}==${req.path}`);
 		next();
 	})
 	
