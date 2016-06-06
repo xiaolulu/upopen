@@ -3,6 +3,9 @@ const Kind = [
 		text: 'nodejs',
 		id: 'nodejs'
 	},{
+		text: 'webapp',
+		id: 'webapp'
+	},{
 		text: 'ubuntu',
 		id: 'ubuntu'
 	},{
