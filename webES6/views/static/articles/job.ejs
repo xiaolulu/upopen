@@ -2,17 +2,16 @@
 <div class="main" id="blogBox">
 	<section>	
 		<div class="info clearfix">
-			<span class="title">resume</span>
-			<a class="type" href="/blog/list?kind=other">other</a>
-			<img class="head" src="/public/imgs/head.png" width="42" />
+			<span class="title" id="title">resume</span>
+			<a class="type" href="/blog/list?kind={kind}" id="kind">other</a>
+			<img class="head" src="/public/imgs/head.png" width="42">
 		</div>
 		<div class="tool">
-			<!--span class="toolItem view">Views: 0</span>
-			<span class="toolItem talk">Comments: 0</span-->
-			<span class="toolItem date">Date: 2016-06-12</span>
+			<!--span class="toolItem view">Views: {view}</span>
+			<span class="toolItem talk">Comments: {comment}</span-->
+			<span class="toolItem date" id="date">2016-06-12T12:06:11.592Z</span>
 		</div>
-		<div class="summary clearfix"></div>
-		<div class="content clearfix markdown"><h3 id="-">联系方式</h3>
+		<div class="content clearfix markdown" id="content"><h3 id="-">联系方式</h3>
 <ul>
 <li>Mobile：13675896031</li>
 <li>Email: 2270112418@qq.com</li>
@@ -87,7 +86,8 @@
 <hr>
 <h3 id="-">工作目标</h3>
 <p>基于过往的一些工作认识所得，希望能与这样一家公司共同前进</p>
-<p> 深厚的技术沉淀、良好的产品运作、精英的同事共事 </p>
+<p>
+深厚的技术沉淀、良好的产品运作、精英的同事共事 </p>
 <h3 id="-">技术文章</h3>
 <p><a href="http://www.upopen.cn/blog/list">优品开源 upopen</a></p>
 <hr>
@@ -95,16 +95,6 @@
 <p>感谢您阅读我的简历，期待与您共事。</p>
 </div>
 	</section>
-	<div class="comments" name="comments" id="comments">
-		<div class="commentWrap" id="commentWrap">
-			
-		</div>
-		<form class="commentForm" id="commentForm">
-			<input type="text" placeHolder="you name" id="commentUser" maxLength="30" class="commentUser" /><br />
-			<textarea class="commentContent" id="commentContent" rows="6" maxLength="1000" placeHolder="your comment for this blog within 1000 words"></textarea><br />
-			<button type="submit" id="commentBtn" class="btn">SAVE COMMENT</button><br /><br />
-		</form>
-	</div>
 </div>
 
 <% include ../../common/slide.ejs %>
