@@ -23,6 +23,17 @@ gulp.task('lint', function() {
 		.pipe(jshint.reporter('YOUR_REPORTER_HERE'));
 });
 
+gulp.task( 'webpackmin', function(){
+	webpack( config.webpack, function( err, status ){});
+});
+
+gulp.task( 'sassmin', function(){
+	gulp.src( config.sass.src )
+		.pipe( sass().on( 'error', sass.logError ))
+		.pipe( minifycss() )
+		.pipe( gulp.dest( config.sass.dest ));
+});
+
 gulp.task( 'webpack', function(){
 	webpack( config.webpack, function( err, status ){});
 });
@@ -30,7 +41,6 @@ gulp.task( 'webpack', function(){
 gulp.task( 'sass', function(){
 	gulp.src( config.sass.src )
 		.pipe( sass().on( 'error', sass.logError ))
-		.pipe( minifycss() )
 		.pipe( gulp.dest( config.sass.dest ));
 });
 

@@ -2,6 +2,7 @@ const path = require( `path` );
 const webpack = require(`webpack`);
 const src = path.join( __dirname, './resource' );
 const dest = path.join( __dirname, '../assets' );
+//const dest = path.join( __dirname, '../dev_assets/dev' );
 const cview = path.join( __dirname, './cview' );
 
 module.exports =  {

@@ -1,0 +1,8 @@
+[
+	{
+		'name': 'upopen web',
+		'script': 'entry.js',
+		'cwd': './webES6',
+		''
+	}
+]

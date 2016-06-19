@@ -20,5 +20,28 @@
   </ul>
 </nav-->
 </div>
+<script>
+	var Bigpipe = function(){
+	    this.events = {};
+	}
+	
+	Bigpipe.prototype.on = function(name,event){
+		this.events[ name ] = this.events[ name ] || [];
+	    this.events[ name ].push( event );
+	}
+	
+	Bigpipe.prototype.fire = function(name,data){
+	    var events = this.events[ name ] || [],
+	    	event;
+	    while( event = events.shift() ){
+		    event.call( this, data )
+	    }
+	}
+
+	var bigpipe = new Bigpipe();
+    bigpipe.on( 'articleList', function( data ){
+		$( '#blogBox' ).append( data );
+    });
+</script>
 <% include ../common/slide.ejs %>
 <% include ../common/footer.ejs %>

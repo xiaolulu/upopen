@@ -1,5 +1,7 @@
 import Blog from '../server/blog';
 import {Kind} from '../lib/code';
+
+console.log( `===${process.env.NODE_ENV}` )
 export default [
 	{
 		path: '/list',
@@ -10,6 +12,9 @@ export default [
 			title: '文章列表',
 			assets: '/module/blog/list/list',
 			Kind
+		},
+		pipe: ( req, res, next ) => {
+			Blog.fetchPipe( req, res, '/blog/fetch', () => { res.end('</body></html>') } );
 		}
 	},
 	{

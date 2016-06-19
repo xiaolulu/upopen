@@ -10,6 +10,12 @@ const Routes = {
 	issue
 }
 
+const pipe = function( req, res, next ){
+	return function( res ){
+		res.end();
+	}
+}
+
 const Router = ( router ) => {
 	
 	router.use((req, res, next) => {
@@ -29,9 +35,12 @@ const Router = ( router ) => {
 	for( let model in Routes ){
 		Routes[model].map( item => {
 			router.route(`/${model}${item.path}`)[item.method](( req, res, next ) => {
+				
 				if( item.render ){
-					const path = `${typeof item.render === 'string' ? item.render : item.render( req.query.id )}`
-					res.render( path, Object.assign( item.config, site ));
+					const path = `${typeof item.render === 'string' ? item.render : item.render( req.query.id )}`;
+					res.render( path, Object.assign( item.config, site ), ( err, str ) => { res.write(str) } );
+					//( item.pipe && item.pipe( req, res, next ) ) || res.end();
+					item.pipe( req, res, next )
 				} else {
 					item.request( req, res );
 				}

@@ -1,0 +1,11 @@
+{
+	"apps" : [{
+	    "name"        		: "launcher",
+    	"script"      		: "./product/server/launcher.js",
+    	"node_args" 		: "--harmony",
+   		"log_date_format"   : "YYYY-MM-DD HH:mm:ss",
+	    "out_file"  		: "./logs/launcher_out.log",
+	    "error_file"   		: "./logs/launcher_err.log",
+	    "log_file"   		: "./logs/launcher_log.log"
+	}]
+}

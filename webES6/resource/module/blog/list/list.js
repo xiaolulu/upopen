@@ -1,4 +1,5 @@
 
+/*
 var blogTmp = ['<div class="info clearfix">',
 						'<a class="title" href="/blog/info?id={_id}">{title}</a>',
 						'<a class="type" href="/blog/list?kind={kind}">{kind}</a>',
@@ -60,10 +61,11 @@ var loading = false,
 	if( location.search ){
 		_search = location.search.slice(1).split('=')[1];
 	}
-	fetchBlog( _search, start, limit );
+	//fetchBlog( _search, start, limit );
 	$( window ).on( 'scrollLoading', function(){
 		if( !loading ){
 			fetchBlog( _search, start += limit, limit )
 		}
 	})
 }();
+*/
