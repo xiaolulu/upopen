@@ -1,18 +1,17 @@
-var Bigpipe=function(){
-    this.callbacks={};
+var Bigpipe = function(){
+    this.events = {};
 }
 
-Bigpipe.prototype.ready=function(key,callback){
-    if(!this.callbacks[key]){
-        this.callbacks[key]=[];
-    }
-    this.callbacks[key].push(callback);
+Bigpipe.prototype.on = function(name,event){
+	this.events[ name ] = this.events[ name ] || [];
+    this.events[ name ].push( event );
 }
 
-Bigpipe.prototype.set=function(key,data){
-    var callbacks=this.callbacks[key]||[];
-    for(var i=0;i<callbacks.length;i++){
-        callbacks[i].call(this,data);
+Bigpipe.prototype.fire = function(name,data){
+    var events = this.events[ name ] || [],
+    	event;
+    while( event = events.shift() ){
+	    event.call( this, data )
     }
 }
 
