@@ -36,7 +36,7 @@ module.exports =  {
 			]
 		},
 		plugins : [
-			new webpack.optimize.MinChunkSizePlugin({
+			/*new webpack.optimize.MinChunkSizePlugin({
 				compress : {
 					warnings: false
 				}
@@ -45,7 +45,7 @@ module.exports =  {
 				compress: {
 					warnings: false
 				}
-			})
+			})*/
 		]
 	},
 	sass: {

@@ -29,9 +29,7 @@ var commentUserRule = [
 		}
 	];
 $( '#commentForm' ).on( 'submit', function(){
-	if( Validate( commentUser, commentUserRule ) !== true || Validate( commentContent, commentContentRule ) !== true ){
-		return false;
-	}
+	
 	commentBtn.get(0).setAttribute( 'disabled', true );
 	var data = {
 		blogId: blogId,
