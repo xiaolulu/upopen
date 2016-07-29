@@ -38,9 +38,15 @@ const Router = ( router ) => {
 				
 				if( item.render ){
 					const path = `${typeof item.render === 'string' ? item.render : item.render( req.query.id )}`;
-					res.render( path, Object.assign( item.config, site ), ( err, str ) => { res.write(str) } );
+					console.log( item.path );
+					if( item.path === '/list' ){
+						res.render( path, Object.assign( item.config, site ), ( err, str ) => { res.write(str) } );
 					//( item.pipe && item.pipe( req, res, next ) ) || res.end();
-					item.pipe( req, res, next )
+						item.pipe( req, res, next )
+					} else {
+						res.render( path, Object.assign( item.config, site ));
+					}
+					
 				} else {
 					item.request( req, res );
 				}

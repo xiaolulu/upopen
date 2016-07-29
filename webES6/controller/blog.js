@@ -34,6 +34,9 @@ export default [
 			title: '文章管理',
 			assets: '/module/blog/mis/mis',
 			Kind
+		},
+		pipe: ( req, res, next ) => {
+			Blog.fetchPipe( req, res, '/blog/fetch', () => { res.end('</body></html>') } );
 		}
 	},
 	{
